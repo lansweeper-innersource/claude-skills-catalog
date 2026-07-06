@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)https://ubiquitous-tanuki-ec0bdc.netlify.app/ -->
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Skills Catalog — Product Team Toolkit</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  :root {
+    --bg: #07070d;
+    --surface: #0f0f18;
+    --surface2: #161622;
+    --surface3: #1e1e2e;
+    --border: #252540;
+    --border-hover: #3a3a5c;
+    --text: #e4e4ed;
+    --text-dim: #7a7a96;
+    --text-muted: #55556a;
+    --accent: #7c6aef;
+    --accent-light: #9b8cf7;
+    --accent-glow: rgba(124, 106, 239, 0.15);
+    --green: #34d399;
+    --green-dim: #2a9d73;
+    --green-glow: rgba(52, 211, 153, 0.10);
+    --blue: #60a5fa;
+    --blue-glow: rgba(96, 165, 250, 0.10);
+    --orange: #fb923c;
+    --orange-glow: rgba(251, 146, 60, 0.10);
+    --pink: #f472b6;
+    --pink-glow: rgba(244, 114, 182, 0.10);
+    --cyan: #22d3ee;
+    --cyan-glow: rgba(34, 211, 238, 0.10);
+    --red: #f87171;
+    --red-glow: rgba(248, 113, 113, 0.10);
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  .bg-grid {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image:
+      radial-gradient(circle at 15% 15%, rgba(124,106,239,0.05) 0%, transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(52,211,153,0.03) 0%, transparent 45%),
+      radial-gradient(circle at 50% 50%, rgba(96,165,250,0.02) 0%, transparent 50%);
+  }
+
+  .wrap { position: relative; z-index: 1; }
+
+  /* ===== HERO ===== */
+  .hero {
+    text-align: center;
+    padding: 72px 24px 48px;
+    max-width: 840px;
+    margin: 0 auto;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent-glow);
+    border: 1px solid rgba(124,106,239,0.25);
+    color: var(--accent-light);
+    padding: 5px 16px;
+    border-radius: 100px;
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1.1;
+    margin-bottom: 14px;
+    background: linear-gradient(135deg, #fff 10%, var(--accent-light) 55%, var(--cyan) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero p { font-size: 1.05rem; color: var(--text-dim); max-width: 560px; margin: 0 auto 28px; }
+
+  .stats-bar {
+    display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 24px;
+  }
+  .stat-num { font-size: 1.8rem; font-weight: 700; color: var(--accent-light); }
+  .stat-label { font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+
+  .gh-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 22px;
+    border-radius: 100px;
+    font-size: 0.85rem; font-weight: 500;
+    text-decoration: none;
+    transition: all 0.25s;
+    margin-bottom: 24px;
+  }
+  .gh-link:hover {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+    color: var(--accent-light);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+  }
+
+  /* ===== SEARCH ===== */
+  .search-box {
+    max-width: 460px; margin: 0 auto 0; position: relative;
+  }
+  .search-box input {
+    width: 100%; background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 12px 20px 12px 44px;
+    color: var(--text); font-size: 0.9rem; font-family: inherit; outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .search-box input::placeholder { color: var(--text-muted); }
+  .search-box input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+  }
+  .search-icon {
+    position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+    color: var(--text-muted); font-size: 15px; pointer-events: none;
+  }
+  .search-count {
+    text-align: center; font-size: 0.78rem; color: var(--text-muted);
+    margin-top: 8px; min-height: 20px;
+  }
+
+  /* ===== FILTER ===== */
+  .filter-bar {
+    display: flex; justify-content: center; gap: 6px; padding: 14px 24px; flex-wrap: wrap;
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(7,7,13,0.88); backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .fbtn {
+    background: transparent; color: var(--text-dim);
+    border: 1px solid transparent;
+    padding: 7px 16px; border-radius: 100px;
+    font-size: 12.5px; font-weight: 500; cursor: pointer;
+    transition: all 0.2s; font-family: inherit;
+  }
+  .fbtn:hover { color: var(--text); background: var(--surface); border-color: var(--border); }
+  .fbtn.on {
+    background: var(--accent-glow); color: var(--accent-light);
+    border-color: rgba(124,106,239,0.35);
+  }
+
+  /* ===== SECTIONS ===== */
+  .sec { max-width: 1140px; margin: 0 auto; padding: 56px 24px 32px; }
+  .sec-head { margin-bottom: 32px; }
+  .sec-head h2 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 6px; }
+  .sec-head p { color: var(--text-dim); font-size: 0.9rem; }
+
+  /* ===== INTERACTIVE ARCHITECTURE ===== */
+  .arch-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 40px 32px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .arch-wrap::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 30%, rgba(124,106,239,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .arch-label-top {
+    text-align: center; font-size: 0.72rem; text-transform: uppercase;
+    letter-spacing: 1.5px; color: var(--text-muted); margin-bottom: 28px; font-weight: 600;
+  }
+
+  .arch-canvas {
+    position: relative;
+    width: 100%;
+    max-width: 820px;
+    margin: 0 auto;
+    min-height: 520px;
+  }
+
+  /* SVG connections */
+  .arch-svg {
+    position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;
+  }
+  .conn-line {
+    stroke: var(--border);
+    stroke-width: 1.5;
+    fill: none;
+    transition: stroke 0.4s, stroke-width 0.4s;
+  }
+  .conn-line.active {
+    stroke: var(--accent-light);
+    stroke-width: 2;
+    filter: drop-shadow(0 0 6px rgba(124,106,239,0.4));
+  }
+  .conn-dot {
+    fill: var(--border);
+    transition: fill 0.4s, r 0.4s;
+  }
+  .conn-dot.active {
+    fill: var(--accent-light);
+    filter: drop-shadow(0 0 4px rgba(124,106,239,0.5));
+  }
+
+  /* Architecture layers */
+  .arch-layer {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .arch-layer-label {
+    font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px;
+    color: var(--text-muted); font-weight: 600; margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .arch-layer-label::before, .arch-layer-label::after {
+    content: ''; height: 1px; width: 40px; background: var(--border);
+  }
+
+  .arch-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+  .arch-node {
+    padding: 12px 20px; border-radius: 12px;
+    font-size: 0.82rem; font-weight: 500; text-align: center;
+    min-width: 135px; cursor: pointer;
+    border: 1.5px solid; position: relative;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+  }
+  .arch-node:hover { transform: translateY(-3px); }
+
+  .arch-node .node-pulse {
+    position: absolute; inset: -3px; border-radius: 14px;
+    border: 2px solid transparent;
+    transition: border-color 0.4s;
+    pointer-events: none;
+  }
+  .arch-node.highlight .node-pulse {
+    border-color: var(--accent-light);
+    animation: pulse-ring 1.5s ease infinite;
+  }
+
+  @keyframes pulse-ring {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.04); }
+  }
+
+  .arch-node.highlight {
+    transform: translateY(-4px) scale(1.05);
+    z-index: 10;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  }
+
+  .arch-node.dimmed { opacity: 0.25; transform: scale(0.97); }
+
+  /* Node colors */
+  .n-orch { background: rgba(251,146,60,0.08); border-color: rgba(251,146,60,0.3); color: var(--orange); }
+  .n-orch:hover, .n-orch.highlight { background: rgba(251,146,60,0.15); border-color: var(--orange); box-shadow: 0 8px 30px rgba(251,146,60,0.15); }
+  .n-research { background: rgba(96,165,250,0.06); border-color: rgba(96,165,250,0.25); color: var(--blue); }
+  .n-research:hover, .n-research.highlight { background: rgba(96,165,250,0.12); border-color: var(--blue); box-shadow: 0 8px 30px rgba(96,165,250,0.12); }
+  .n-exec { background: rgba(52,211,153,0.06); border-color: rgba(52,211,153,0.25); color: var(--green); }
+  .n-exec:hover, .n-exec.highlight { background: rgba(52,211,153,0.12); border-color: var(--green); box-shadow: 0 8px 30px rgba(52,211,153,0.12); }
+  .n-qa { background: rgba(34,211,238,0.06); border-color: rgba(34,211,238,0.25); color: var(--cyan); }
+  .n-qa:hover, .n-qa.highlight { background: rgba(34,211,238,0.12); border-color: var(--cyan); box-shadow: 0 8px 30px rgba(34,211,238,0.12); }
+  .n-writer { background: rgba(244,114,182,0.06); border-color: rgba(244,114,182,0.25); color: var(--pink); }
+  .n-writer:hover, .n-writer.highlight { background: rgba(244,114,182,0.12); border-color: var(--pink); box-shadow: 0 8px 30px rgba(244,114,182,0.12); }
+
+  /* Flow arrows between layers */
+  .arch-flow {
+    display: flex; align-items: center; justify-content: center;
+    gap: 8px; padding: 10px 0; color: var(--text-muted); font-size: 0.72rem;
+    letter-spacing: 0.5px;
+  }
+  .arch-flow .arrow-line {
+    width: 40px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+  }
+  .arch-flow svg { width: 16px; height: 16px; opacity: 0.5; }
+
+  /* Tooltip */
+  .arch-tooltip {
+    position: fixed;
+    background: var(--surface3);
+    border: 1px solid var(--border-hover);
+    border-radius: 12px;
+    padding: 16px 20px;
+    max-width: 300px;
+    font-size: 0.82rem;
+    color: var(--text);
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.25s, transform 0.25s;
+    z-index: 1000;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+  }
+  .arch-tooltip.show { opacity: 1; transform: translateY(0); }
+  .arch-tooltip .tt-name { font-weight: 600; font-size: 0.9rem; margin-bottom: 4px; }
+  .arch-tooltip .tt-desc { color: var(--text-dim); line-height: 1.5; }
+  .arch-tooltip .tt-conn { margin-top: 8px; font-size: 0.75rem; color: var(--accent-light); }
+
+  /* ===== SKILL CARDS ===== */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 16px;
+  }
+
+  .skill-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: all 0.3s ease;
+    position: relative; overflow: hidden;
+  }
+  .skill-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: var(--card-accent, var(--accent));
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .skill-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  }
+  .skill-card:hover::before { opacity: 1; }
+  .skill-card.hidden { display: none; }
+
+  .card-top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+
+  .card-icon {
+    width: 42px; height: 42px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 19px; flex-shrink: 0;
+  }
+
+  .card-title { font-size: 1rem; font-weight: 600; margin-bottom: 1px; }
+  .card-cat {
+    font-size: 0.68rem; text-transform: uppercase;
+    letter-spacing: 0.8px; font-weight: 600;
+  }
+
+  .card-desc { font-size: 0.84rem; color: var(--text-dim); line-height: 1.6; margin-bottom: 14px; }
+
+  .card-triggers { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 14px; }
+
+  .ttag {
+    font-size: 0.7rem; padding: 2px 9px; border-radius: 100px;
+    background: var(--surface2); color: var(--text-muted);
+    border: 1px solid var(--border); font-weight: 500;
+  }
+
+  .card-ex {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 12px 14px;
+  }
+  .card-ex .ex-label {
+    font-weight: 600; font-size: 0.66rem; text-transform: uppercase;
+    letter-spacing: 0.6px; color: var(--text-muted); margin-bottom: 5px;
+  }
+  .card-ex code {
+    display: block; color: var(--green); font-family: 'SF Mono','Fira Code',monospace;
+    font-size: 0.78rem; line-height: 1.5; white-space: pre-wrap;
+  }
+
+  /* Card category colors */
+  .cat-research .card-icon { background: var(--blue-glow); color: var(--blue); }
+  .cat-research .card-cat { color: var(--blue); }
+  .cat-research { --card-accent: var(--blue); }
+
+  .cat-po .card-icon { background: var(--orange-glow); color: var(--orange); }
+  .cat-po .card-cat { color: var(--orange); }
+  .cat-po { --card-accent: var(--orange); }
+
+  .cat-qa .card-icon { background: var(--cyan-glow); color: var(--cyan); }
+  .cat-qa .card-cat { color: var(--cyan); }
+  .cat-qa { --card-accent: var(--cyan); }
+
+  .cat-meta .card-icon { background: var(--pink-glow); color: var(--pink); }
+  .cat-meta .card-cat { color: var(--pink); }
+  .cat-meta { --card-accent: var(--pink); }
+
+  .cat-docs .card-icon { background: var(--green-glow); color: var(--green); }
+  .cat-docs .card-cat { color: var(--green); }
+  .cat-docs { --card-accent: var(--green); }
+
+  .cat-analytics .card-icon { background: rgba(251,146,60,0.08); color: #f59e0b; }
+  .cat-analytics .card-cat { color: #f59e0b; }
+  .cat-analytics { --card-accent: #f59e0b; }
+
+
+  /* ===== WORKFLOWS ===== */
+  .wf-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 28px; margin-bottom: 16px;
+  }
+  .wf-title { font-size: 1.05rem; font-weight: 600; margin-bottom: 4px; }
+  .wf-sub { color: var(--text-dim); font-size: 0.82rem; margin-bottom: 20px; }
+
+  .wf-steps { display: flex; align-items: stretch; flex-wrap: wrap; justify-content: center; gap: 0; }
+
+  .wf-step {
+    flex: 1; min-width: 120px; max-width: 180px;
+    text-align: center; padding: 14px 8px;
+  }
+  .wf-num {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--accent-glow); border: 2px solid var(--accent);
+    color: var(--accent-light);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 700; margin-bottom: 8px;
+  }
+  .wf-name { font-size: 0.78rem; font-weight: 500; margin-bottom: 3px; }
+  .wf-detail { font-size: 0.7rem; color: var(--text-dim); line-height: 1.4; }
+  .wf-arrow { display: flex; align-items: center; color: var(--text-muted); font-size: 0.9rem; padding: 0 2px; }
+
+  /* ===== TIPS ===== */
+  .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+  .tip {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 20px;
+  }
+  .tip h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 6px; }
+  .tip p { font-size: 0.82rem; color: var(--text-dim); line-height: 1.55; }
+  .tip code {
+    background: var(--surface2); padding: 1px 6px; border-radius: 4px;
+    font-size: 0.78rem; color: var(--green); font-family: 'SF Mono',monospace;
+  }
+
+  /* ===== REFERENCE TABLE ===== */
+  .ref-table {
+    width: 100%; border-collapse: collapse;
+    background: var(--surface); border-radius: var(--radius); overflow: hidden;
+    font-size: 0.82rem;
+  }
+  .ref-table th {
+    padding: 12px 16px; font-weight: 600; color: var(--text-dim);
+    background: var(--surface2); text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .ref-table td {
+    padding: 10px 16px; border-bottom: 1px solid var(--border);
+  }
+  .ref-table tr:last-child td { border-bottom: none; }
+  .ref-table tr:hover td { background: var(--surface2); }
+  .ref-table code {
+    font-size: 0.78rem; color: var(--text-dim);
+    font-family: 'SF Mono',monospace;
+  }
+  .ref-skill { font-weight: 500; }
+
+  /* ===== LANGUAGE SELECTOR ===== */
+  .lang-selector {
+    position: fixed; top: 16px; right: 20px; z-index: 200;
+    display: flex; gap: 4px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 3px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .lang-btn {
+    background: transparent; color: var(--text-dim);
+    border: none; padding: 5px 12px; border-radius: 100px;
+    font-size: 12px; font-weight: 600; cursor: pointer;
+    transition: all 0.2s; font-family: inherit;
+    letter-spacing: 0.5px; text-transform: uppercase;
+  }
+  .lang-btn:hover { color: var(--text); background: var(--surface2); }
+  .lang-btn.active {
+    background: var(--accent-glow); color: var(--accent-light);
+    border: 1px solid rgba(124,106,239,0.35);
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    text-align: center; padding: 40px 24px;
+    color: var(--text-muted); font-size: 0.78rem;
+    border-top: 1px solid var(--border); margin-top: 48px;
+  }
+
+  @media (max-width: 768px) {
+    .skills-grid { grid-template-columns: 1fr; }
+    .stats-bar { gap: 24px; }
+    .arch-canvas { min-height: auto; }
+    .wf-steps { flex-direction: column; align-items: center; }
+    .wf-arrow { transform: rotate(90deg); }
+    .arch-row { gap: 8px; }
+    .arch-node { min-width: 110px; padding: 10px 14px; font-size: 0.76rem; }
+  }
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<!-- Language Selector -->
+<div class="lang-selector" id="langSelector">
+  <button class="lang-btn active" data-lang="es">ES</button>
+  <button class="lang-btn" data-lang="en">EN</button>
+  <button class="lang-btn" data-lang="fr">FR</button>
+  <button class="lang-btn" data-lang="it">IT</button>
+</div>
+
+<div class="wrap">
+
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <div class="hero-badge">⚡ <span data-i18n="hero.badge">Product Owner Toolkit</span></div>
+  <h1 data-i18n="hero.title">Product Team Skills Catalog</h1>
+  <p data-i18n="hero.desc">10 skills especializadas para Claude que cubren todo el flujo de trabajo del equipo de Producto: investigacion, ejecucion, analytics, diseno y comunicacion.</p>
+  <div class="stats-bar">
+    <div><div class="stat-num">10</div><div class="stat-label" data-i18n="hero.skills">Skills</div></div>
+    <div><div class="stat-num">3</div><div class="stat-label" data-i18n="hero.layers">Capas</div></div>
+    <div><div class="stat-num">1</div><div class="stat-label" data-i18n="hero.orchestrator">Orquestador</div></div>
+  </div>
+  <a href="https://github.com/AdrianAmZa/lansweeper-po-skills/releases/tag/v1.1.0" target="_blank" rel="noopener noreferrer" class="gh-link">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"></path></svg>
+    <span data-i18n="hero.github">Documentación en GitHub</span>
+  </a>
+  <div class="search-box">
+    <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+    <input type="text" id="searchInput" data-i18n-placeholder="search.placeholder" placeholder="Buscar skills, triggers, ejemplos...">
+  </div>
+  <div class="search-count" id="searchCount"></div>
+</section>
+
+<!-- ===================== FILTERS ===================== -->
+<nav class="filter-bar" id="filterBar">
+  <button class="fbtn on" data-cat="all" data-i18n="filter.all">Todas (10)</button>
+  <button class="fbtn" data-cat="research">🔎 <span data-i18n="filter.research">Investigacion</span></button>
+  <button class="fbtn" data-cat="po">🎯 <span data-i18n="filter.po">Ejecucion PO</span></button>
+  <button class="fbtn" data-cat="qa">✅ <span data-i18n="filter.qa">QA</span></button>
+  <button class="fbtn" data-cat="analytics">📊 <span data-i18n="filter.analytics">Analytics</span></button>
+  <button class="fbtn" data-cat="meta">⚙️ <span data-i18n="filter.meta">Orquestacion</span></button>
+</nav>
+
+<!-- ===================== ARCHITECTURE ===================== -->
+<section class="sec">
+  <div class="sec-head">
+    <h2 data-i18n="arch.title">Arquitectura del Ecosistema</h2>
+    <p data-i18n="arch.desc">Pasa el cursor sobre cualquier nodo para ver como se conecta con las demas skills. Haz clic para fijar la seleccion.</p>
+  </div>
+
+  <div class="arch-wrap">
+    <div class="arch-label-top" data-i18n="arch.flowLabel">Flujo de datos interactivo</div>
+
+    <div class="arch-canvas" id="archCanvas">
+      <svg class="arch-svg" id="archSvg"><path d="M409.99609375,76.6171875 C409.99609375,118.15234375 117.8984375,118.15234375 117.8984375,159.6875" class="conn-line" data-src="orchestrator" data-tgt="jira-res"></path><circle cx="117.8984375" cy="159.6875" r="3" class="conn-dot" data-owner="jira-res"></circle><path d="M409.99609375,76.6171875 C409.99609375,118.15234375 312.234375,118.15234375 312.234375,159.6875" class="conn-line" data-src="orchestrator" data-tgt="confluence-res"></path><circle cx="312.234375" cy="159.6875" r="3" class="conn-dot" data-owner="confluence-res"></circle><path d="M409.99609375,76.6171875 C409.99609375,118.15234375 511.98046875,118.15234375 511.98046875,159.6875" class="conn-line" data-src="orchestrator" data-tgt="slack-res"></path><circle cx="511.98046875" cy="159.6875" r="3" class="conn-dot" data-owner="slack-res"></circle><path d="M409.99609375,76.6171875 C409.99609375,118.15234375 694.6171875,118.15234375 694.6171875,159.6875" class="conn-line" data-src="orchestrator" data-tgt="figma-res"></path><circle cx="694.6171875" cy="159.6875" r="3" class="conn-dot" data-owner="figma-res"></circle><path d="M409.99609375,76.6171875 C409.99609375,183.6796875 149.53515625,183.6796875 149.53515625,290.7421875" class="conn-line" data-src="orchestrator" data-tgt="ticket-creator"></path><circle cx="149.53515625" cy="290.7421875" r="3" class="conn-dot" data-owner="ticket-creator"></circle><path d="M409.99609375,76.6171875 C409.99609375,183.6796875 323.375,183.6796875 323.375,290.7421875" class="conn-line" data-src="orchestrator" data-tgt="sprint-planner"></path><circle cx="323.375" cy="290.7421875" r="3" class="conn-dot" data-owner="sprint-planner"></circle><path d="M409.99609375,76.6171875 C409.99609375,183.6796875 502.51953125,183.6796875 502.51953125,290.7421875" class="conn-line" data-src="orchestrator" data-tgt="stakeholder"></path><circle cx="502.51953125" cy="290.7421875" r="3" class="conn-dot" data-owner="stakeholder"></circle><path d="M117.8984375,207.671875 C117.8984375,249.20703125 149.53515625,249.20703125 149.53515625,290.7421875" class="conn-line" data-src="jira-res" data-tgt="ticket-creator"></path><circle cx="149.53515625" cy="290.7421875" r="3" class="conn-dot" data-owner="ticket-creator"></circle><path d="M117.8984375,207.671875 C117.8984375,249.20703125 323.375,249.20703125 323.375,290.7421875" class="conn-line" data-src="jira-res" data-tgt="sprint-planner"></path><circle cx="323.375" cy="290.7421875" r="3" class="conn-dot" data-owner="sprint-planner"></circle><path d="M117.8984375,207.671875 C117.8984375,249.20703125 502.51953125,249.20703125 502.51953125,290.7421875" class="conn-line" data-src="jira-res" data-tgt="stakeholder"></path><circle cx="502.51953125" cy="290.7421875" r="3" class="conn-dot" data-owner="stakeholder"></circle><path d="M117.8984375,207.671875 C117.8984375,314.734375 323.16796875,314.734375 323.16796875,421.796875" class="conn-line" data-src="jira-res" data-tgt="test-plan"></path><circle cx="323.16796875" cy="421.796875" r="3" class="conn-dot" data-owner="test-plan"></circle><path d="M312.234375,207.671875 C312.234375,249.20703125 149.53515625,249.20703125 149.53515625,290.7421875" class="conn-line" data-src="confluence-res" data-tgt="ticket-creator"></path><circle cx="149.53515625" cy="290.7421875" r="3" class="conn-dot" data-owner="ticket-creator"></circle><path d="M312.234375,207.671875 C312.234375,314.734375 323.16796875,314.734375 323.16796875,421.796875" class="conn-line" data-src="confluence-res" data-tgt="test-plan"></path><circle cx="323.16796875" cy="421.796875" r="3" class="conn-dot" data-owner="test-plan"></circle><path d="M511.98046875,207.671875 C511.98046875,249.20703125 149.53515625,249.20703125 149.53515625,290.7421875" class="conn-line" data-src="slack-res" data-tgt="ticket-creator"></path><circle cx="149.53515625" cy="290.7421875" r="3" class="conn-dot" data-owner="ticket-creator"></circle><path d="M511.98046875,207.671875 C511.98046875,249.20703125 502.51953125,249.20703125 502.51953125,290.7421875" class="conn-line" data-src="slack-res" data-tgt="stakeholder"></path><circle cx="502.51953125" cy="290.7421875" r="3" class="conn-dot" data-owner="stakeholder"></circle><path d="M694.6171875,207.671875 C694.6171875,249.20703125 149.53515625,249.20703125 149.53515625,290.7421875" class="conn-line" data-src="figma-res" data-tgt="ticket-creator"></path><circle cx="149.53515625" cy="290.7421875" r="3" class="conn-dot" data-owner="ticket-creator"></circle><path d="M694.6171875,207.671875 C694.6171875,314.734375 323.16796875,314.734375 323.16796875,421.796875" class="conn-line" data-src="figma-res" data-tgt="test-plan"></path><circle cx="323.16796875" cy="421.796875" r="3" class="conn-dot" data-owner="test-plan"></circle><path d="M149.53515625,338.7265625 C149.53515625,380.26171875 323.16796875,380.26171875 323.16796875,421.796875" class="conn-line" data-src="ticket-creator" data-tgt="test-plan"></path><circle cx="323.16796875" cy="421.796875" r="3" class="conn-dot" data-owner="test-plan"></circle><path d="M409.99609375,76.6171875 C409.99609375,183.6796875 682.90625,183.6796875 682.90625,290.7421875" class="conn-line" data-src="orchestrator" data-tgt="pendo-tracker"></path><circle cx="682.90625" cy="290.7421875" r="3" class="conn-dot" data-owner="pendo-tracker"></circle><path d="M312.234375,207.671875 C312.234375,249.20703125 682.90625,249.20703125 682.90625,290.7421875" class="conn-line" data-src="confluence-res" data-tgt="pendo-tracker"></path><circle cx="682.90625" cy="290.7421875" r="3" class="conn-dot" data-owner="pendo-tracker"></circle><path d="M682.90625,338.7265625 C682.90625,314.734375 149.53515625,314.734375 149.53515625,290.7421875" class="conn-line" data-src="pendo-tracker" data-tgt="ticket-creator"></path><circle cx="149.53515625" cy="290.7421875" r="3" class="conn-dot" data-owner="ticket-creator"></circle><path d="M323.375,338.7265625 C323.375,314.734375 502.51953125,314.734375 502.51953125,290.7421875" class="conn-line" data-src="sprint-planner" data-tgt="stakeholder"></path><circle cx="502.51953125" cy="290.7421875" r="3" class="conn-dot" data-owner="stakeholder"></circle></svg>
+
+      <!-- Layer 1: Orchestrator -->
+      <div class="arch-layer" id="layer-orch">
+        <div class="arch-layer-label" data-i18n="arch.entryPoint">Punto de entrada</div>
+        <div class="arch-row">
+          <div class="arch-node n-orch" data-id="orchestrator" data-connects="jira-res,confluence-res,slack-res,ticket-creator,sprint-planner,stakeholder,pendo-tracker">
+            <span class="node-pulse"></span>
+            🎮 Orchestrator PO
+          </div>
+        </div>
+      </div>
+
+      <div class="arch-flow">
+        <div class="arrow-line"></div>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"></path></svg>
+        <span data-i18n="arch.delegates">delega y coordina</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"></path></svg>
+        <div class="arrow-line"></div>
+      </div>
+
+      <!-- Layer 2: Research -->
+      <div class="arch-layer" id="layer-research">
+        <div class="arch-layer-label" data-i18n="arch.researchLayer">Capa de investigacion</div>
+        <div class="arch-row">
+          <div class="arch-node n-research" data-id="jira-res" data-connects="orchestrator,ticket-creator,sprint-planner,stakeholder,test-plan">
+            <span class="node-pulse"></span>
+            🔎 Jira Researcher
+          </div>
+          <div class="arch-node n-research" data-id="confluence-res" data-connects="orchestrator,ticket-creator,test-plan">
+            <span class="node-pulse"></span>
+            📖 Confluence Researcher
+          </div>
+          <div class="arch-node n-research" data-id="slack-res" data-connects="orchestrator,ticket-creator,stakeholder">
+            <span class="node-pulse"></span>
+            💬 Slack Researcher
+          </div>
+          <div class="arch-node n-research" data-id="figma-res" data-connects="orchestrator,ticket-creator,test-plan">
+            <span class="node-pulse"></span>
+            🎨 Figma Researcher
+          </div>
+        </div>
+      </div>
+
+      <div class="arch-flow">
+        <div class="arrow-line"></div>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"></path></svg>
+        <span data-i18n="arch.feedsContext">alimenta contexto</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"></path></svg>
+        <div class="arrow-line"></div>
+      </div>
+
+      <!-- Layer 3: Execution -->
+      <div class="arch-layer" id="layer-exec">
+        <div class="arch-layer-label" data-i18n="arch.execLayer">Capa de ejecucion</div>
+        <div class="arch-row">
+          <div class="arch-node n-exec" data-id="ticket-creator" data-connects="orchestrator,jira-res,confluence-res,slack-res,test-plan,pendo-tracker">
+            <span class="node-pulse"></span>
+            🎯 Jira Ticket Creator
+          </div>
+          <div class="arch-node n-exec" data-id="sprint-planner" data-connects="orchestrator,jira-res,stakeholder">
+            <span class="node-pulse"></span>
+            📅 Sprint Planner
+          </div>
+          <div class="arch-node n-exec" data-id="stakeholder" data-connects="orchestrator,jira-res,slack-res,sprint-planner">
+            <span class="node-pulse"></span>
+            📣 Stakeholder Comms
+          </div>
+          <div class="arch-node n-exec" data-id="pendo-tracker" data-connects="orchestrator,confluence-res,ticket-creator" style="background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.3); color: #f59e0b;">
+            <span class="node-pulse"></span>
+            📊 Pendo Tracker
+          </div>
+        </div>
+      </div>
+
+      <div class="arch-flow">
+        <div class="arrow-line"></div>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"></path></svg>
+        <span data-i18n="arch.producesArtifacts">produce artefactos</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"></path></svg>
+        <div class="arrow-line"></div>
+      </div>
+
+      <!-- Layer 4: Output -->
+      <div class="arch-layer" id="layer-output">
+        <div class="arch-layer-label" data-i18n="arch.outputLayer">Capa de output</div>
+        <div class="arch-row">
+          <div class="arch-node n-qa" data-id="test-plan" data-connects="ticket-creator,jira-res,confluence-res">
+            <span class="node-pulse"></span>
+            ✅ Test Plan Creator
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /arch-canvas -->
+  </div><!-- /arch-wrap -->
+
+  <!-- Tooltip -->
+  <div class="arch-tooltip" id="archTooltip">
+    <div class="tt-name"></div>
+    <div class="tt-desc"></div>
+    <div class="tt-conn"></div>
+  </div>
+</section>
+
+<!-- ===================== SKILL CARDS ===================== -->
+<section class="sec" id="skillsSection">
+  <div class="sec-head">
+    <h2 data-i18n="skills.title">Catalogo de Skills</h2>
+    <p data-i18n="skills.desc">Cada skill con descripcion, triggers de activacion y ejemplo practico.</p>
+  </div>
+
+  <div class="skills-grid" id="grid">
+
+    <!-- Orchestrator PO -->
+    <div class="skill-card cat-meta" data-cat="meta" data-search="orchestrator po product owner meta routing delegacion sprint planificacion workflow coordina">
+      <div class="card-top">
+        <div class="card-icon">🎮</div>
+        <div><div class="card-title">Orchestrator PO</div><div class="card-cat" data-i18n="cat.meta">Orquestacion</div></div>
+      </div>
+      <div class="card-desc" data-i18n="card.orchestrator.desc">Meta-skill que coordina flujos de trabajo de PO. Enruta automaticamente a skills de investigacion (Jira, Confluence, Slack, Figma), ejecucion (tickets, sprint, stakeholder), QA (Test Plan Creator) y analytics (Pendo Tracker) segun tu peticion.</div>
+      <div class="card-triggers">
+        <span class="ttag" data-i18n="card.orchestrator.t1">flujo complejo</span>
+        <span class="ttag" data-i18n="card.orchestrator.t2">investigar + crear</span>
+        <span class="ttag" data-i18n="card.orchestrator.t3">coordinar trabajo PO</span>
+      </div>
+      <div class="card-ex">
+        <div class="ex-label" data-i18n="card.exLabel">Ejemplo de uso</div>
+        <code data-i18n="card.orchestrator.ex">"Investiga en Slack y Confluence lo que
+se decidio sobre la feature X y creame
+las stories en Jira"</code>
+      </div>
+    </div>
+
+    <!-- Jira Researcher -->
+    <div class="skill-card cat-research" data-cat="research" data-search="jira researcher investigacion tickets epics stories sprint status progreso buscar issues JQL blockers">
+      <div class="card-top">
+        <div class="card-icon">🔎</div>
+        <div><div class="card-title">Jira Researcher</div><div class="card-cat" data-i18n="cat.research">Investigacion</div></div>
+      </div>
+      <div class="card-desc" data-i18n="card.jiraRes.desc">Busca y extrae informacion de Jira con recuperacion progresiva. Navega jerarquias (epics → stories → subtasks), comentarios e issues vinculados sin sobrecargar contexto.</div>
+      <div class="card-triggers">
+        <span class="ttag">estado del sprint</span>
+        <span class="ttag">buscar tickets</span>
+        <span class="ttag">progreso epic</span>
+        <span class="ttag">JQL</span>
+        <span class="ttag">blockers</span>
+      </div>
+      <div class="card-ex">
+        <div class="ex-label" data-i18n="card.exLabel">Ejemplo de uso</div>
+        <code>"Cuantos story points quedan por
+completar en el sprint actual?
+Hay algun ticket bloqueado?"</code>
+      </div>
+    </div>
+
+    <!-- Confluence Researcher -->
+    <div class="skill-card cat-research" data-cat="research" data-search="confluence researcher investigacion docs wiki specs documentacion paginas espacios meeting notes arquitectura runbook">
+      <div class="card-top">
+        <div class="card-icon">📖</div>
+        <div><div class="card-title">Confluence Researcher</div><div class="card-cat" data-i18n="cat.research">Investigacion</div></div>
+      </div>
+      <div class="card-desc" data-i18n="card.confRes.desc">Navega la jerarquia de paginas de Confluence para encontrar specs, docs de arquitectura, notas de reuniones y runbooks. Extrae informacion clave sin volcar paginas enteras.</div>
+      <div class="card-triggers">
+        <span class="ttag">buscar spec</span>
+        <span class="ttag">arquitectura</span>
+        <span class="ttag">meeting notes</span>
+        <span class="ttag">runbook</span>
+        <span class="ttag">wiki</span>
+      </div>
+      <div class="card-ex">
+        <div class="ex-label" data-i18n="card.exLabel">Ejemplo de uso</div>
+        <code>"Que dice la spec sobre el flujo
+de autenticacion SSO? Necesito
+los acceptance criteria"</code>
+      </div>
+    </div>
+
+    <!-- Slack Researcher -->
+    <div class="skill-card cat-research" data-cat="research" data-search="slack researcher investigacion mensajes canales threads conversaciones decisiones discusiones context chat">
+      <div class="card-top">
+        <div class="card-icon">💬</div>
+        <div><div class="card-title">Slack Researcher</div><div class="card-cat" data-i18n="cat.research">Investigacion</div></div>
+      </div>
+      <div class="card-desc" data-i18n="card.slackRes.desc">Busca y extrae informacion de Slack con recuperacion progresiva. Navega canales, threads y mensajes sin tirar del historial completo de conversaciones.</div>
+      <div class="card-triggers">
+        <span class="ttag">que se discutio</span>
+        <span class="ttag">decisiones Slack</span>
+        <span class="ttag">buscar canal</span>
+        <span class="ttag">contexto thread</span>
+      </div>
+      <div class="card-ex">
+        <div class="ex-label" data-i18n="card.exLabel">Ejemplo de uso</div>
+        <code>"Que decidio el equipo sobre el
+approach de migracion en
+#eng-platform la semana pasada?"</code>
+      </div>
+    </div>
+
+    <!-- Figma Researcher -->
+    <div class="skill-card cat-research" data-cat="research" data-search="figma researcher investigacion design mockup wireframe UI componentes tokens screenshots specs visual diseno">
+      <div class="card-top">
+        <div class="card-icon">🎨</div>
+        <div><div class="card-title">Figma Researcher</div><div class="card-cat" data-i18n="cat.research">Investigacion</div></div>
+      </div>
+      <div class="card-desc" data-i18n="card.figmaRes.desc">Extrae contexto de diseno desde Figma via MCP. Recupera screenshots, estructura de componentes, tokens de diseno y specs de layout. Traduce decisiones visuales en specs accionables para ingenieria.</div>
+      <div class="card-triggers">
+        <span class="ttag">Figma URL</span>
+        <span class="ttag">check the design</span>
+        <span class="ttag">UI specs</span>
+        <span class="ttag">mockup</span>
+        <span class="ttag">design tokens</span>
+      </div>
+      <div class="card-ex">
+        <div class="ex-label" data-i18n="card.exLabel">Ejemplo de uso</div>
+        <code>"Que muestra el Figma para el nuevo
+alert banner? Extraeme las specs
+y los estados del componente"</code>
+      </div>
+    </div>
+
+    <!-- Jira Ticket Creator -->
+    <div class="skill-card cat-po" data-cat="po" data-search="jira ticket creator crear issue outcome milestone story epic bug task vulnerability acceptance criteria story points estimacion template jerarquia">
+      <div class="card-top">
+        <div class="card-icon">🎯</div>
+        <div><div class="card-title">Jira Ticket Creator</div><div class="card-cat" data-i18n="cat.po">Ejecucion PO</div></div>
+      </div>
+      <div class="card-desc" data-i18n="card.ticketCreator.desc">Crea issues estructurados en Jira con templates en prosa humana (sin tablas de metadata ni notas de AI). Story segun el template oficial ACME-17271 y Bug segun el esquema oficial ACME-56921. Soporta Epics, Stories, Tasks, Bugs y Vulnerabilities. Tracking de Pendo opcional (opt-in por story) y siempre colapsado. Flujo de 5 pasos: inputs → preview → estimacion → confirmacion → resumen. <span style="color: var(--accent-light); font-size: 0.78rem; font-weight: 600;">v2.0.0</span></div>
+      <div class="card-triggers">
+        <span class="ttag">crear outcome</span>
+        <span class="ttag">crear milestone</span>
+        <span class="ttag">crear epic</span>
+        <span class="ttag">nueva story</span>
+        <span class="ttag">reportar bug</span>
+        <span class="ttag">vulnerability</span>
+      </div>
+      <div class="card-ex">
+        <div class="ex-label" data-i18n="card.exLabel">Ejemplo de uso</div>
+        <code>"Crea un Milestone para agrupar
+las epics del nuevo modulo BI
+y definir sus criterios de exito"</code>
+      </div>
+    </div>
+
+    <!-- Sprint Planner -->
+    <div class="skill-card cat-po" data-cat="po" data-search="sprint planner planificacion backlog grooming estimacion velocity capacidad review retrospectiva ceremonia goal priorizar">
+      <div class="card-top">
+        <div class="card-icon">📅</div>
+        <div><div class="card-title">Sprint Planner</div><div class="card-cat" data-i18n="cat.po">Ejecucion PO</div></div>
+      </div>
+      <div class="card-desc" data-i18n="card.sprintPlanner.desc">Planificacion de sprints, grooming y estimacion. Sprint goals, capacity planning, velocity tracking, priorizacion del backlog y preparacion de ceremonias agile.</div>
+      <div class="card-triggers">
+        <span class="ttag">planificar sprint</span>
+        <span class="ttag">grooming</span>
+        <span class="ttag">velocity</span>
+        <span class="ttag">capacidad</span>
+        <span class="ttag">priorizar</span>
+      </div>
+      <div class="card-ex">
+        <div class="ex-label" data-i18n="card.exLabel">Ejemplo de uso</div>
+        <code>"Ayudame a preparar el sprint
+planning para Sprint 24. Tenemos
+3 devs a 80% capacity"</code>
+      </div>
+    </div>
+
+    <!-- Stakeholder Communicator -->
+    <div class="skill-card cat-po" data-cat="po" data-search="stakeholder communicator comunicacion status report release notes executive summary decision log escalation demo update semanal">
+      <div class="card-top">
+        <div class="card-icon">📣</div>
+        <div><div class="card-title">Stakeholder Communicator</div><div class="card-cat" data-i18n="cat.po">Ejecucion PO</div></div>
+      </div>
+      <div class="card-desc" data-i18n="card.stakeholder.desc">Comunicacion con stakeholders: sprint status updates, release notes, executive summaries, decision logs, escalation reports y preparacion de demos.</div>
+      <div class="card-triggers">
+        <span class="ttag">status update</span>
+        <span class="ttag">release notes</span>
+        <span class="ttag">executive summary</span>
+        <span class="ttag">preparar demo</span>
+      </div>
+      <div class="card-ex">
+        <div class="ex-label" data-i18n="card.exLabel">Ejemplo de uso</div>
+        <code>"Prepara el sprint status update
+para el stakeholder meeting
+de manana con metricas"</code>
+      </div>
+    </div>
+
+
+    <!-- Pendo Tracker -->
+    <div class="skill-card cat-analytics" data-cat="analytics" data-search="pendo tracker analytics track events PLG instrumentation plan tracking metrics conversion onboarding adoption engagement retention expansion pricing paywall data-pendo-id">
+      <div class="card-top">
+        <div class="card-icon" style="background: rgba(245,158,11,0.1); color: #f59e0b;">📊</div>
+        <div><div class="card-title">Pendo Tracker</div><div class="card-cat" data-i18n="cat.analytics" style="color: #f59e0b;">Analytics</div></div>
+      </div>
+      <div class="card-desc" data-i18n="card.pendoTracker.desc">Determina que track events de Pendo aplican a una issue de Jira. Genera la seccion de tracking (formato light o full, siempre colapsada) y realiza verificacion doble obligatoria: (A) el PLG Instrumentation Plan en Confluence y (B) los datos reales de Pendo en produccion via searchEntities. Nunca da por confirmado un evento que no exista en Pendo. Funciona standalone o como companion del Jira Ticket Creator.</div>
+      <div class="card-triggers">
+        <span class="ttag">Pendo</span>
+        <span class="ttag">track events</span>
+        <span class="ttag">instrumentacion</span>
+        <span class="ttag">PLG tracking</span>
+        <span class="ttag">que trackear</span>
+      </div>
+      <div class="card-ex">
+        <div class="ex-label" data-i18n="card.exLabel">Ejemplo de uso</div>
+        <code data-i18n="card.pendoTracker.ex">"Crea una story para el rediseno de
+la pricing page y asegurate de que
+trackeemos lo necesario en Pendo"</code>
+      </div>
+    </div>
+
+    <!-- Test Plan Creator -->
+    <div class="skill-card cat-qa" data-cat="qa" data-search="test plan creator qa testing manual tests required data quality assurance verificacion validacion pruebas cobertura">
+      <div class="card-top">
+        <div class="card-icon">✅</div>
+        <div><div class="card-title">Test Plan Creator</div><div class="card-cat" data-i18n="cat.qa">QA</div></div>
+      </div>
+      <div class="card-desc" data-i18n="card.testPlan.desc">Crea Test Plans en Jira siguiendo las 21 Guidelines oficiales del equipo de QA de Lansweeper. Formato Gherkin, testing por fases (A–G), tests de seguridad, nivel de automatizacion, criterios de reporte de bugs y consistencia con herramientas hermanas. Template con columnas por rol (Dev 1 / Dev 2 / QE / PO) y flujo de 5 pasos.</div>
+      <div class="card-triggers">
+        <span class="ttag">crear test plan</span>
+        <span class="ttag">plan de pruebas</span>
+        <span class="ttag">QA strategy</span>
+        <span class="ttag">manual tests</span>
+      </div>
+      <div class="card-ex">
+        <div class="ex-label" data-i18n="card.exLabel">Ejemplo de uso</div>
+        <code>"Crea un test plan para la feature
+de exportacion CSV del inventario
+con cobertura de edge cases"</code>
+      </div>
+    </div>
+
+  </div><!-- /grid -->
+</section>
+
+<!-- ===================== WORKFLOWS ===================== -->
+<section class="sec">
+  <div class="sec-head">
+    <h2 data-i18n="wf.title">Workflows Combinados</h2>
+    <p data-i18n="wf.desc">Escenarios reales donde multiples skills se encadenan automaticamente.</p>
+  </div>
+
+  <div class="wf-card">
+    <div class="wf-title">📌 <span data-i18n="wf.wf1.title">Crear stories desde contexto disperso</span></div>
+    <div class="wf-sub" data-i18n="wf.wf1.sub">La informacion esta repartida entre Slack, Confluence y Jira</div>
+    <div class="wf-steps">
+      <div class="wf-step"><div class="wf-num">1</div><div class="wf-name">Slack Researcher</div><div class="wf-detail" data-i18n="wf.wf1.s1">Busca decisiones y requisitos en canales</div></div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-step"><div class="wf-num">2</div><div class="wf-name">Confluence Researcher</div><div class="wf-detail" data-i18n="wf.wf1.s2">Complementa con specs tecnicas</div></div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-step"><div class="wf-num">3</div><div class="wf-name">Jira Researcher</div><div class="wf-detail" data-i18n="wf.wf1.s3">Verifica work existente</div></div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-step"><div class="wf-num">4</div><div class="wf-name">Jira Ticket Creator</div><div class="wf-detail" data-i18n="wf.wf1.s4">Crea stories con todo el contexto</div></div>
+    </div>
+  </div>
+
+  <div class="wf-card">
+    <div class="wf-title">📈 <span data-i18n="wf.wf2.title">Sprint Review reporting completo</span></div>
+    <div class="wf-sub" data-i18n="wf.wf2.sub">Generar un paquete de reporting para sprint review</div>
+    <div class="wf-steps">
+      <div class="wf-step"><div class="wf-num">1</div><div class="wf-name">Jira Researcher</div><div class="wf-detail" data-i18n="wf.wf2.s1">Recopila metricas y estado del sprint</div></div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-step"><div class="wf-num">2</div><div class="wf-name">Sprint Planner</div><div class="wf-detail" data-i18n="wf.wf2.s2">Analiza velocity y capacity</div></div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-step"><div class="wf-num">3</div><div class="wf-name">Stakeholder Comms</div><div class="wf-detail" data-i18n="wf.wf2.s3">Genera status report y summary</div></div>
+    </div>
+  </div>
+
+  <div class="wf-card">
+    <div class="wf-title">🛠️ <span data-i18n="wf.wf3.title">Feature end-to-end: de idea a test plan</span></div>
+    <div class="wf-sub" data-i18n="wf.wf3.sub">Ciclo completo de una feature usando todo el ecosistema</div>
+    <div class="wf-steps">
+      <div class="wf-step"><div class="wf-num">1</div><div class="wf-name">Orchestrator PO</div><div class="wf-detail" data-i18n="wf.wf3.s1">Coordina todo el flujo</div></div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-step"><div class="wf-num">2</div><div class="wf-name">Figma Researcher</div><div class="wf-detail" data-i18n="wf.wf3.s2">Extrae specs y estados del diseno</div></div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-step"><div class="wf-num">3</div><div class="wf-name">Ticket Creator</div><div class="wf-detail" data-i18n="wf.wf3.s3">Epic + Stories con AC del diseno</div></div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-step"><div class="wf-num">4</div><div class="wf-name">Test Plan Creator</div><div class="wf-detail" data-i18n="wf.wf3.s4">Test plan con estados visuales</div></div>
+    </div>
+  </div>
+
+  <div class="wf-card">
+    <div class="wf-title">🎨 <span data-i18n="wf.wf4.title">Design-to-stories: de Figma a Jira</span></div>
+    <div class="wf-sub" data-i18n="wf.wf4.sub">Un disenador completo un mockup y el PO necesita crear stories de implementacion</div>
+    <div class="wf-steps">
+      <div class="wf-step"><div class="wf-num">1</div><div class="wf-name">Figma Researcher</div><div class="wf-detail" data-i18n="wf.wf4.s1">Extrae componentes y estados</div></div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-step"><div class="wf-num">2</div><div class="wf-name">Jira Researcher</div><div class="wf-detail" data-i18n="wf.wf4.s2">Verifica tickets existentes</div></div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-step"><div class="wf-num">3</div><div class="wf-name">Jira Ticket Creator</div><div class="wf-detail" data-i18n="wf.wf4.s3">Crea stories con specs del diseno</div></div>
+    </div>
+  </div>
+
+  <div class="wf-card">
+    <div class="wf-title">📊 <span data-i18n="wf.wf5.title">Feature con instrumentacion Pendo</span></div>
+    <div class="wf-sub" data-i18n="wf.wf5.sub">Crear una feature story con tracking de Pendo integrado en paralelo al desarrollo</div>
+    <div class="wf-steps">
+      <div class="wf-step"><div class="wf-num">1</div><div class="wf-name">Confluence Researcher</div><div class="wf-detail" data-i18n="wf.wf5.s1">Lee PLG Instrumentation Plan</div></div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-step"><div class="wf-num">2</div><div class="wf-name">Pendo Tracker</div><div class="wf-detail" data-i18n="wf.wf5.s2">Identifica eventos y genera tracking</div></div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-step"><div class="wf-num">3</div><div class="wf-name">Jira Ticket Creator</div><div class="wf-detail" data-i18n="wf.wf5.s3">Story con FAC + seccion Pendo</div></div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-step"><div class="wf-num">4</div><div class="wf-name">Test Plan Creator</div><div class="wf-detail" data-i18n="wf.wf5.s4">Test plan incluye edge cases Pendo</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== QUICK REF ===================== -->
+<section class="sec">
+  <div class="sec-head">
+    <h2 data-i18n="ref.title">Referencia Rapida</h2>
+    <p data-i18n="ref.desc">Que skill usar en cada situacion con un prompt sugerido.</p>
+  </div>
+
+  <div style="overflow-x:auto; border-radius: var(--radius); border: 1px solid var(--border);">
+    <table class="ref-table">
+      <thead><tr><th data-i18n="ref.thWant">Quiero...</th><th data-i18n="ref.thSkill">Skill</th><th data-i18n="ref.thPrompt">Prompt sugerido</th></tr></thead>
+      <tbody>
+        <tr><td data-i18n="ref.r1">Buscar info en Jira</td><td class="ref-skill" style="color:var(--blue)">Jira Researcher</td><td><code>"Busca tickets bloqueados en el sprint"</code></td></tr>
+        <tr><td data-i18n="ref.r2">Buscar en documentacion</td><td class="ref-skill" style="color:var(--blue)">Confluence Researcher</td><td><code>"Encuentra la spec del SSO flow"</code></td></tr>
+        <tr><td data-i18n="ref.r3">Ver que se dijo en Slack</td><td class="ref-skill" style="color:var(--blue)">Slack Researcher</td><td><code>"Que decidieron sobre la API en #eng?"</code></td></tr>
+        <tr><td data-i18n="ref.r4">Extraer specs de diseno</td><td class="ref-skill" style="color:var(--blue)">Figma Researcher</td><td><code>"Que muestra el Figma para el alert banner?"</code></td></tr>
+        <tr><td data-i18n="ref.r5">Crear un ticket</td><td class="ref-skill" style="color:var(--orange)">Jira Ticket Creator</td><td><code>"Crea una story para el filtro avanzado"</code></td></tr>
+        <tr><td data-i18n="ref.r6">Planificar un sprint</td><td class="ref-skill" style="color:var(--orange)">Sprint Planner</td><td><code>"Planifica Sprint 25 del team Cloud"</code></td></tr>
+        <tr><td data-i18n="ref.r7">Hacer un status report</td><td class="ref-skill" style="color:var(--orange)">Stakeholder Comms</td><td><code>"Status update semanal para management"</code></td></tr>
+        <tr><td data-i18n="ref.r8">Crear un test plan</td><td class="ref-skill" style="color:var(--cyan)">Test Plan Creator</td><td><code>"Test plan para exportacion CSV"</code></td></tr>
+        <tr><td data-i18n="ref.r11">Definir tracking de Pendo</td><td class="ref-skill" style="color:#f59e0b">Pendo Tracker</td><td><code>"Que track events necesitamos para pricing?"</code></td></tr>
+        <tr><td data-i18n="ref.r10">Algo complejo multi-step</td><td class="ref-skill" style="color:var(--accent-light)">Orchestrator PO</td><td><code>"Investiga, crea tickets y documenta X"</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ===================== TIPS ===================== -->
+<section class="sec">
+  <div class="sec-head">
+    <h2 data-i18n="tips.title">Tips y Buenas Practicas</h2>
+    <p data-i18n="tips.desc">Como sacar el maximo partido a tus skills.</p>
+  </div>
+
+  <div class="tips-grid">
+    <div class="tip">
+      <h4 data-i18n="tips.t1.title">🎯 Se especifico con el contexto</h4>
+      <p>En lugar de "crea un ticket", prueba <code>crea una Story en SCAN para implementar filtro de OS con acceptance criteria</code>. Cuanto mas contexto, mejor resultado.</p>
+    </div>
+    <div class="tip">
+      <h4 data-i18n="tips.t2.title">🔗 Encadena naturalmente</h4>
+      <p>Claude detecta cuando necesita multiples skills. "Investiga en Slack que se dijo sobre X y crea tickets" activara Slack Researcher + Jira Ticket Creator automaticamente.</p>
+    </div>
+    <div class="tip">
+      <h4 data-i18n="tips.t3.title">💡 Usa el Orchestrator para flujos complejos</h4>
+      <p>Si necesitas investigar en varias fuentes y luego actuar, usa el <code>Orchestrator PO</code> como punto de entrada. El enrutara automaticamente a las skills correctas.</p>
+    </div>
+    <div class="tip">
+      <h4 data-i18n="tips.t4.title">🔍 Investiga antes de crear</h4>
+      <p>Deja que los Researchers recopilen contexto antes de crear tickets o reports. El resultado sera mucho mas preciso y completo.</p>
+    </div>
+    <div class="tip">
+      <h4 data-i18n="tips.t5.title">✅ No olvides QA</h4>
+      <p>Despues de crear stories con el <code>Ticket Creator</code>, usa <code>Test Plan Creator</code> para generar el plan de pruebas automaticamente basado en los acceptance criteria.</p>
+    </div>
+    <div class="tip">
+      <h4 data-i18n="tips.t6.title">📈 Combina para ceremonias</h4>
+      <p>Para sprint reviews: Jira Researcher (datos) + Sprint Planner (analisis) + Stakeholder Comms (presentacion). Todo en un solo flujo.</p>
+    </div>
+        <div class="tip">
+      <h4 data-i18n="tips.t7.title">📊 Tracking en paralelo con Pendo</h4>
+      <p>Cuando crees stories con cambios de UI, incluye siempre la seccion de Pendo. Usa <code>Pendo Tracker</code> para que te ayude a identificar que eventos del PLG Instrumentation Plan aplican a tu feature.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span data-i18n="footer">Product Team · Lansweeper · Claude Cowork Skills Catalog · Marzo 2026</span>
+</footer>
+
+</div><!-- /wrap -->
+
+<!-- ===================== JAVASCRIPT ===================== -->
+<script>
+// ========== SKILL DATA FOR ARCHITECTURE TOOLTIPS ==========
+const skillData = {
+  'orchestrator': {
+    name: 'Orchestrator PO',
+    desc: 'Meta-skill que coordina todo el flujo PO. Detecta que necesitas y delega a las skills correctas.',
+    connections: 'Conecta con TODAS las demas skills'
+  },
+  'jira-res': {
+    name: 'Jira Researcher',
+    desc: 'Busca tickets, epics, sprint status y jerarquias de issues en Jira.',
+    connections: 'Alimenta a: Ticket Creator, Sprint Planner, Stakeholder Comms, Test Plan'
+  },
+  'confluence-res': {
+    name: 'Confluence Researcher',
+    desc: 'Encuentra specs, docs de arquitectura y meeting notes en Confluence.',
+    connections: 'Alimenta a: Ticket Creator, Pendo Tracker, Test Plan'
+  },
+  'slack-res': {
+    name: 'Slack Researcher',
+    desc: 'Busca decisiones, discusiones y contexto en canales y threads de Slack.',
+    connections: 'Alimenta a: Ticket Creator, Stakeholder Comms'
+  },
+  'figma-res': {
+    name: 'Figma Researcher',
+    desc: 'Extrae contexto de diseno desde Figma: screenshots, componentes, tokens y specs de layout.',
+    connections: 'Alimenta a: Ticket Creator, Test Plan Creator'
+  },
+  'ticket-creator': {
+    name: 'Jira Ticket Creator',
+    desc: 'Crea Epics, Stories, Tasks, Bugs y Vulnerabilities con templates en prosa humana (Story ACME-17271, Bug ACME-56921) y estimacion.',
+    connections: 'Recibe de: Researchers | Produce para: Test Plan'
+  },
+  'sprint-planner': {
+    name: 'Sprint Planner',
+    desc: 'Planificacion de sprints, velocity tracking, capacity y priorizacion.',
+    connections: 'Recibe de: Jira Researcher | Coordina con: Stakeholder Comms'
+  },
+  'stakeholder': {
+    name: 'Stakeholder Communicator',
+    desc: 'Status updates, release notes, executive summaries y prep de demos.',
+    connections: 'Recibe de: Jira Researcher, Slack Researcher, Sprint Planner'
+  },
+  'test-plan': {
+    name: 'Test Plan Creator',
+    desc: 'Crea Test Plans con las 21 Guidelines oficiales de QA: Gherkin, fases A–G, tests de seguridad y automatizacion.',
+    connections: 'Recibe de: Ticket Creator, Jira Researcher, Confluence Researcher'
+  },
+  'pendo-tracker': {
+    name: 'Pendo Tracker',
+    desc: 'Determina track events de Pendo, genera secciones de tracking y valida metadata contra el PLG Plan.',
+    connections: 'Recibe de: Confluence Researcher | Coordina con: Ticket Creator'
+  }
+};
+
+// ========== ARCHITECTURE INTERACTIVITY ==========
+const nodes = document.querySelectorAll('.arch-node');
+const tooltip = document.getElementById('archTooltip');
+let locked = null;
+
+function highlightNode(node) {
+  const id = node.dataset.id;
+  const connects = (node.dataset.connects || '').split(',').filter(Boolean);
+  const allIds = [id, ...connects];
+
+  nodes.forEach(n => {
+    if (allIds.includes(n.dataset.id)) {
+      n.classList.add('highlight');
+      n.classList.remove('dimmed');
+    } else {
+      n.classList.remove('highlight');
+      n.classList.add('dimmed');
+    }
+  });
+
+  // Update SVG lines
+  document.querySelectorAll('.conn-line').forEach(l => {
+    const src = l.dataset.src, tgt = l.dataset.tgt;
+    if (allIds.includes(src) && allIds.includes(tgt)) {
+      l.classList.add('active');
+    } else {
+      l.classList.remove('active');
+    }
+  });
+  document.querySelectorAll('.conn-dot').forEach(d => {
+    if (allIds.includes(d.dataset.owner)) {
+      d.classList.add('active');
+    } else {
+      d.classList.remove('active');
+    }
+  });
+}
+
+function clearHighlight() {
+  if (locked) return;
+  nodes.forEach(n => { n.classList.remove('highlight','dimmed'); });
+  document.querySelectorAll('.conn-line').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('.conn-dot').forEach(d => d.classList.remove('active'));
+  tooltip.classList.remove('show');
+}
+
+function showTooltip(node, e) {
+  const info = skillData[node.dataset.id];
+  if (!info) return;
+  tooltip.querySelector('.tt-name').textContent = info.name;
+  tooltip.querySelector('.tt-desc').textContent = info.desc;
+  tooltip.querySelector('.tt-conn').textContent = info.connections;
+  tooltip.classList.add('show');
+  positionTooltip(e);
+}
+
+function positionTooltip(e) {
+  const pad = 16;
+  let x = e.clientX + pad, y = e.clientY + pad;
+  const tw = 300, th = 140;
+  if (x + tw > window.innerWidth) x = e.clientX - tw - pad;
+  if (y + th > window.innerHeight) y = e.clientY - th - pad;
+  tooltip.style.left = x + 'px';
+  tooltip.style.top = y + 'px';
+}
+
+nodes.forEach(node => {
+  node.addEventListener('mouseenter', e => {
+    if (!locked) { highlightNode(node); showTooltip(node, e); }
+  });
+  node.addEventListener('mousemove', e => {
+    if (!locked) positionTooltip(e);
+    else if (locked === node) positionTooltip(e);
+  });
+  node.addEventListener('mouseleave', () => { if (!locked) clearHighlight(); });
+  node.addEventListener('click', e => {
+    e.stopPropagation();
+    if (locked === node) {
+      locked = null;
+      clearHighlight();
+    } else {
+      locked = node;
+      highlightNode(node);
+      showTooltip(node, e);
+    }
+  });
+});
+
+document.addEventListener('click', () => {
+  if (locked) { locked = null; clearHighlight(); }
+});
+
+// ========== DRAW SVG CONNECTIONS ==========
+function drawConnections() {
+  const svg = document.getElementById('archSvg');
+  const canvas = document.getElementById('archCanvas');
+  const canvasRect = canvas.getBoundingClientRect();
+  svg.innerHTML = '';
+
+  // Connections definition: [sourceId, targetId]
+  const conns = [
+    ['orchestrator','jira-res'], ['orchestrator','confluence-res'], ['orchestrator','slack-res'], ['orchestrator','figma-res'],
+    ['orchestrator','ticket-creator'], ['orchestrator','sprint-planner'], ['orchestrator','stakeholder'],
+    ['jira-res','ticket-creator'], ['jira-res','sprint-planner'], ['jira-res','stakeholder'], ['jira-res','test-plan'],
+    ['confluence-res','ticket-creator'], ['confluence-res','test-plan'],
+    ['slack-res','ticket-creator'], ['slack-res','stakeholder'],
+    ['figma-res','ticket-creator'], ['figma-res','test-plan'],
+    ['ticket-creator','test-plan'],
+    ['orchestrator','pendo-tracker'],
+    ['confluence-res','pendo-tracker'],
+    ['pendo-tracker','ticket-creator'],
+    ['sprint-planner','stakeholder'],
+  ];
+
+  conns.forEach(([src, tgt]) => {
+    const srcNode = document.querySelector(`.arch-node[data-id="${src}"]`);
+    const tgtNode = document.querySelector(`.arch-node[data-id="${tgt}"]`);
+    if (!srcNode || !tgtNode) return;
+
+    const sr = srcNode.getBoundingClientRect();
+    const tr = tgtNode.getBoundingClientRect();
+
+    const x1 = sr.left + sr.width/2 - canvasRect.left;
+    const y1 = sr.top + sr.height - canvasRect.top;
+    const x2 = tr.left + tr.width/2 - canvasRect.left;
+    const y2 = tr.top - canvasRect.top;
+
+    const midY = (y1 + y2) / 2;
+
+    const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d', `M${x1},${y1} C${x1},${midY} ${x2},${midY} ${x2},${y2}`);
+    path.setAttribute('class', 'conn-line');
+    path.dataset.src = src;
+    path.dataset.tgt = tgt;
+    svg.appendChild(path);
+
+    // End dot
+    const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    dot.setAttribute('cx', x2);
+    dot.setAttribute('cy', y2);
+    dot.setAttribute('r', '3');
+    dot.setAttribute('class', 'conn-dot');
+    dot.dataset.owner = tgt;
+    svg.appendChild(dot);
+  });
+}
+
+window.addEventListener('load', () => { setTimeout(drawConnections, 100); });
+window.addEventListener('resize', drawConnections);
+
+// ========== i18n TRANSLATIONS ==========
+const i18n = {
+  es: {
+    'hero.badge': 'Product Owner Toolkit',
+    'hero.title': 'Product Team Skills Catalog',
+    'hero.desc': '10 skills especializadas para Claude que cubren todo el flujo de trabajo del equipo de Producto: investigacion, ejecucion, analytics, diseno y comunicacion.',
+    'hero.skills': 'Skills', 'hero.layers': 'Capas', 'hero.orchestrator': 'Orquestador',
+    'hero.github': 'Documentación en GitHub',
+    'search.placeholder': 'Buscar skills, triggers, ejemplos...',
+    'search.noResults': 'Sin resultados',
+    'search.found': '{n} skill{s} encontrada{s}',
+    'filter.all': 'Todas (10)', 'filter.research': 'Investigacion', 'filter.po': 'Ejecucion PO',
+    'filter.qa': 'QA', 'filter.docs': 'Documentacion', 'filter.meta': 'Orquestacion',
+    'arch.title': 'Arquitectura del Ecosistema',
+    'arch.desc': 'Pasa el cursor sobre cualquier nodo para ver como se conecta con las demas skills. Haz clic para fijar la seleccion.',
+    'arch.flowLabel': 'Flujo de datos interactivo',
+    'arch.entryPoint': 'Punto de entrada', 'arch.delegates': 'delega y coordina',
+    'arch.researchLayer': 'Capa de investigacion', 'arch.feedsContext': 'alimenta contexto',
+    'arch.execLayer': 'Capa de ejecucion', 'arch.producesArtifacts': 'produce artefactos',
+    'arch.outputLayer': 'Capa de output',
+    'skills.title': 'Catalogo de Skills',
+    'skills.desc': 'Cada skill con descripcion, triggers de activacion y ejemplo practico.',
+    'cat.meta': 'Orquestacion', 'cat.research': 'Investigacion', 'cat.po': 'Ejecucion PO',
+    'cat.qa': 'QA', 'cat.docs': 'Documentacion',
+    'card.exLabel': 'Ejemplo de uso',
+    'card.orchestrator.desc': 'Meta-skill que coordina flujos de trabajo de PO. Enruta automaticamente a skills de investigacion (Jira, Confluence, Slack, Figma), ejecucion (tickets, sprint, stakeholder), QA (Test Plan Creator) y analytics (Pendo Tracker) segun tu peticion.',
+    'card.orchestrator.t1': 'flujo complejo', 'card.orchestrator.t2': 'investigar + crear', 'card.orchestrator.t3': 'coordinar trabajo PO',
+    'card.orchestrator.ex': '"Investiga en Slack y Confluence lo que\nse decidio sobre la feature X y creame\nlas stories en Jira"',
+    'card.jiraRes.desc': 'Busca y extrae informacion de Jira con recuperacion progresiva. Navega jerarquias (epics → stories → subtasks), comentarios e issues vinculados sin sobrecargar contexto.',
+    'card.confRes.desc': 'Navega la jerarquia de paginas de Confluence para encontrar specs, docs de arquitectura, notas de reuniones y runbooks. Extrae informacion clave sin volcar paginas enteras.',
+    'card.slackRes.desc': 'Busca y extrae informacion de Slack con recuperacion progresiva. Navega canales, threads y mensajes sin tirar del historial completo de conversaciones.',
+    'card.figmaRes.desc': 'Extrae contexto de diseno desde Figma via MCP. Recupera screenshots, estructura de componentes, tokens de diseno y specs de layout. Traduce decisiones visuales en specs accionables para ingenieria.',
+    'card.ticketCreator.desc': 'Crea issues estructurados en Jira con templates en prosa humana (sin tablas de metadata ni notas de AI). Story segun el template oficial ACME-17271 y Bug segun el esquema oficial ACME-56921. Soporta Epics, Stories, Tasks, Bugs y Vulnerabilities. Tracking de Pendo opcional (opt-in por story) y siempre colapsado. Flujo de 5 pasos: inputs → preview → estimacion → confirmacion → resumen.',
+    'card.sprintPlanner.desc': 'Planificacion de sprints, grooming y estimacion. Sprint goals, capacity planning, velocity tracking, priorizacion del backlog y preparacion de ceremonias agile.',
+    'card.stakeholder.desc': 'Comunicacion con stakeholders: sprint status updates, release notes, executive summaries, decision logs, escalation reports y preparacion de demos.',
+    'card.testPlan.desc': 'Crea Test Plans en Jira siguiendo las 21 Guidelines oficiales del equipo de QA de Lansweeper. Formato Gherkin, testing por fases (A–G), tests de seguridad, nivel de automatizacion, criterios de reporte de bugs y consistencia con herramientas hermanas. Template con columnas por rol (Dev 1 / Dev 2 / QE / PO) y flujo de 5 pasos.',
+    'wf.title': 'Workflows Combinados',
+    'wf.desc': 'Escenarios reales donde multiples skills se encadenan automaticamente.',
+    'wf.wf1.title': 'Crear stories desde contexto disperso',
+    'wf.wf1.sub': 'La informacion esta repartida entre Slack, Confluence y Jira',
+    'wf.wf1.s1': 'Busca decisiones y requisitos en canales', 'wf.wf1.s2': 'Complementa con specs tecnicas',
+    'wf.wf1.s3': 'Verifica work existente', 'wf.wf1.s4': 'Crea stories con todo el contexto',
+    'wf.wf2.title': 'Sprint Review reporting completo',
+    'wf.wf2.sub': 'Generar un paquete de reporting para sprint review',
+    'wf.wf2.s1': 'Recopila metricas y estado del sprint', 'wf.wf2.s2': 'Analiza velocity y capacity',
+    'wf.wf2.s3': 'Genera status report y summary',
+    'wf.wf3.title': 'Feature end-to-end: de idea a test plan',
+    'wf.wf3.sub': 'Ciclo completo de una feature usando todo el ecosistema',
+    'wf.wf3.s1': 'Coordina todo el flujo', 'wf.wf3.s2': 'Extrae specs y estados del diseno',
+    'wf.wf3.s3': 'Epic + Stories con AC del diseno', 'wf.wf3.s4': 'Test plan con estados visuales',
+    'wf.wf4.title': 'Design-to-stories: de Figma a Jira',
+    'wf.wf4.sub': 'Un disenador completo un mockup y el PO necesita crear stories de implementacion',
+    'wf.wf4.s1': 'Extrae componentes y estados', 'wf.wf4.s2': 'Verifica tickets existentes',
+    'wf.wf4.s3': 'Crea stories con specs del diseno',
+    'ref.title': 'Referencia Rapida',
+    'ref.desc': 'Que skill usar en cada situacion con un prompt sugerido.',
+    'ref.thWant': 'Quiero...', 'ref.thSkill': 'Skill', 'ref.thPrompt': 'Prompt sugerido',
+    'ref.r1': 'Buscar info en Jira', 'ref.r2': 'Buscar en documentacion',
+    'ref.r3': 'Ver que se dijo en Slack', 'ref.r4': 'Extraer specs de diseno',
+    'ref.r5': 'Crear un ticket', 'ref.r6': 'Planificar un sprint',
+    'ref.r7': 'Hacer un status report', 'ref.r8': 'Crear un test plan',
+    'tips.title': 'Tips y Buenas Practicas',
+    'tips.desc': 'Como sacar el maximo partido a tus skills.',
+    'tips.t1.title': '&#127919; Se especifico con el contexto',
+    'tips.t2.title': '&#128279; Encadena naturalmente',
+    'tips.t3.title': '&#128161; Usa el Orchestrator para flujos complejos',
+    'tips.t4.title': '&#128269; Investiga antes de crear',
+    'tips.t5.title': '&#9989; No olvides QA',
+    'tips.t6.title': '&#128200; Combina para ceremonias',
+    'footer': 'Product Team &middot; Lansweeper &middot; Claude Cowork Skills Catalog &middot; Abril 2026 &middot; v1.1.0',
+    // skillData tooltips
+    'sd.orchestrator.name': 'Orchestrator PO',
+    'sd.orchestrator.desc': 'Meta-skill que coordina todo el flujo PO. Detecta que necesitas y delega a las skills correctas.',
+    'sd.orchestrator.conn': 'Conecta con TODAS las demas skills',
+    'sd.jira-res.name': 'Jira Researcher',
+    'sd.jira-res.desc': 'Busca tickets, epics, sprint status y jerarquias de issues en Jira.',
+    'sd.jira-res.conn': 'Alimenta a: Ticket Creator, Sprint Planner, Stakeholder Comms, Test Plan',
+    'sd.confluence-res.name': 'Confluence Researcher',
+    'sd.confluence-res.desc': 'Encuentra specs, docs de arquitectura y meeting notes en Confluence.',
+    'sd.confluence-res.conn': 'Alimenta a: Ticket Creator, Pendo Tracker, Test Plan',
+    'sd.slack-res.name': 'Slack Researcher',
+    'sd.slack-res.desc': 'Busca decisiones, discusiones y contexto en canales y threads de Slack.',
+    'sd.slack-res.conn': 'Alimenta a: Ticket Creator, Stakeholder Comms',
+    'sd.figma-res.name': 'Figma Researcher',
+    'sd.figma-res.desc': 'Extrae contexto de diseno desde Figma: screenshots, componentes, tokens y specs de layout.',
+    'sd.figma-res.conn': 'Alimenta a: Ticket Creator, Test Plan Creator',
+    'sd.ticket-creator.name': 'Jira Ticket Creator',
+    'sd.ticket-creator.desc': 'Crea Outcomes, Milestones, Epics, Stories, Tasks y Bugs con templates estructurados y estimacion.',
+    'sd.ticket-creator.conn': 'Recibe de: Researchers | Produce para: Test Plan',
+    'sd.sprint-planner.name': 'Sprint Planner',
+    'sd.sprint-planner.desc': 'Planificacion de sprints, velocity tracking, capacity y priorizacion.',
+    'sd.sprint-planner.conn': 'Recibe de: Jira Researcher | Coordina con: Stakeholder Comms',
+    'sd.stakeholder.name': 'Stakeholder Communicator',
+    'sd.stakeholder.desc': 'Status updates, release notes, executive summaries y prep de demos.',
+    'sd.stakeholder.conn': 'Recibe de: Jira Researcher, Slack Researcher, Sprint Planner',
+    'sd.test-plan.name': 'Test Plan Creator',
+    'sd.test-plan.desc': 'Crea Test Plans con Required Data, Manual Tests y analisis de riesgo.',
+    'sd.test-plan.conn': 'Recibe de: Ticket Creator, Jira Researcher, Confluence Researcher',
+
+    'filter.analytics': 'Analytics',
+    'card.pendoTracker.desc': 'Determina que track events de Pendo aplican a una issue de Jira. Genera la seccion de tracking (formato light o full, siempre colapsada) y realiza verificacion doble obligatoria: (A) el PLG Instrumentation Plan en Confluence y (B) los datos reales de Pendo en produccion via searchEntities. Nunca da por confirmado un evento que no exista en Pendo. Funciona standalone o como companion del Jira Ticket Creator.',
+    'card.pendoTracker.ex': '"Crea una story para el rediseno de\nla pricing page y asegurate de que\ntrackeemos lo necesario en Pendo"',
+    'wf.wf5.title': 'Feature con instrumentacion Pendo',
+    'wf.wf5.sub': 'Crear una feature story con tracking de Pendo integrado en paralelo al desarrollo',
+    'wf.wf5.s1': 'Lee PLG Instrumentation Plan', 'wf.wf5.s2': 'Identifica eventos y genera tracking',
+    'wf.wf5.s3': 'Story con FAC + seccion Pendo', 'wf.wf5.s4': 'Test plan incluye edge cases Pendo',
+    'ref.r11': 'Definir tracking de Pendo',
+    'tips.t7.title': '&#128202; Tracking en paralelo con Pendo',
+    'cat.analytics': 'Analytics',
+    'sd.pendo-tracker.name': 'Pendo Tracker',
+    'sd.pendo-tracker.desc': 'Determina track events de Pendo, genera secciones de tracking y valida metadata contra el PLG Plan.',
+    'sd.pendo-tracker.conn': 'Recibe de: Confluence Researcher | Coordina con: Ticket Creator',
+  },
+  en: {
+    'hero.badge': 'Product Owner Toolkit',
+    'hero.title': 'Product Team Skills Catalog',
+    'hero.desc': '10 specialized Claude skills covering the entire Product team workflow: research, execution, analytics, design, and communication.',
+    'hero.skills': 'Skills', 'hero.layers': 'Layers', 'hero.orchestrator': 'Orchestrator',
+    'hero.github': 'Documentation on GitHub',
+    'search.placeholder': 'Search skills, triggers, examples...',
+    'search.noResults': 'No results',
+    'search.found': '{n} skill{s} found',
+    'filter.all': 'All (10)', 'filter.research': 'Research', 'filter.po': 'PO Execution',
+    'filter.qa': 'QA', 'filter.docs': 'Documentation', 'filter.meta': 'Orchestration',
+    'arch.title': 'Ecosystem Architecture',
+    'arch.desc': 'Hover over any node to see how it connects to other skills. Click to lock the selection.',
+    'arch.flowLabel': 'Interactive data flow',
+    'arch.entryPoint': 'Entry point', 'arch.delegates': 'delegates & coordinates',
+    'arch.researchLayer': 'Research layer', 'arch.feedsContext': 'feeds context',
+    'arch.execLayer': 'Execution layer', 'arch.producesArtifacts': 'produces artifacts',
+    'arch.outputLayer': 'Output layer',
+    'skills.title': 'Skills Catalog',
+    'skills.desc': 'Each skill with description, activation triggers, and practical example.',
+    'cat.meta': 'Orchestration', 'cat.research': 'Research', 'cat.po': 'PO Execution',
+    'cat.qa': 'QA', 'cat.docs': 'Documentation',
+    'card.exLabel': 'Usage example',
+    'card.orchestrator.desc': 'Meta-skill that coordinates PO workflows. Automatically routes to research skills (Jira, Confluence, Slack, Figma), execution skills (tickets, sprint, stakeholder), QA (Test Plan Creator), and analytics (Pendo Tracker) based on your request.',
+    'card.orchestrator.t1': 'complex flow', 'card.orchestrator.t2': 'research + create', 'card.orchestrator.t3': 'coordinate PO work',
+    'card.orchestrator.ex': '"Research in Slack and Confluence what\nwas decided about feature X and create\nthe stories in Jira for me"',
+    'card.jiraRes.desc': 'Searches and extracts information from Jira with progressive retrieval. Navigates hierarchies (epics → stories → subtasks), comments, and linked issues without overloading context.',
+    'card.confRes.desc': 'Navigates Confluence page hierarchies to find specs, architecture docs, meeting notes, and runbooks. Extracts key information without dumping entire pages.',
+    'card.slackRes.desc': 'Searches and extracts information from Slack with progressive retrieval. Navigates channels, threads, and messages without pulling the full conversation history.',
+    'card.figmaRes.desc': 'Extracts design context from Figma via MCP. Retrieves screenshots, component structures, design tokens, and layout specs. Translates visual decisions into actionable specs for engineering.',
+    'card.ticketCreator.desc': 'Creates structured Jira issues with human-prose templates (no metadata tables, no AI notes). Story follows the official ACME-17271 template and Bug follows the official ACME-56921 structure. Supports Epics, Stories, Tasks, Bugs, and Vulnerabilities. Optional Pendo tracking (opt-in per story), always collapsed. 5-step flow: inputs → preview → estimation → confirmation → summary.',
+    'card.sprintPlanner.desc': 'Sprint planning, grooming, and estimation. Sprint goals, capacity planning, velocity tracking, backlog prioritization, and agile ceremony preparation.',
+    'card.stakeholder.desc': 'Stakeholder communication: sprint status updates, release notes, executive summaries, decision logs, escalation reports, and demo preparation.',
+    'card.testPlan.desc': 'Creates Jira Test Plans following the 21 Official QA Guidelines defined by the Lansweeper QA team. Gherkin format, phased testing (A–G), security tests, automation level, bug reporting criteria, and sibling-tool consistency. Template with role columns (Dev 1 / Dev 2 / QE / PO) and a 5-step flow.',
+    'wf.title': 'Combined Workflows',
+    'wf.desc': 'Real scenarios where multiple skills chain together automatically.',
+    'wf.wf1.title': 'Create stories from scattered context',
+    'wf.wf1.sub': 'Information is spread across Slack, Confluence, and Jira',
+    'wf.wf1.s1': 'Searches for decisions and requirements in channels', 'wf.wf1.s2': 'Complements with technical specs',
+    'wf.wf1.s3': 'Verifies existing work', 'wf.wf1.s4': 'Creates stories with full context',
+    'wf.wf2.title': 'Complete Sprint Review reporting',
+    'wf.wf2.sub': 'Generate a reporting package for sprint review',
+    'wf.wf2.s1': 'Collects metrics and sprint status', 'wf.wf2.s2': 'Analyzes velocity and capacity',
+    'wf.wf2.s3': 'Generates status report and summary',
+    'wf.wf3.title': 'Feature end-to-end: from idea to test plan',
+    'wf.wf3.sub': 'Full feature cycle using the entire ecosystem',
+    'wf.wf3.s1': 'Coordinates the entire flow', 'wf.wf3.s2': 'Extracts specs and design states',
+    'wf.wf3.s3': 'Epic + Stories with design ACs', 'wf.wf3.s4': 'Test plan with visual states',
+    'wf.wf4.title': 'Design-to-stories: from Figma to Jira',
+    'wf.wf4.sub': 'A designer completed a mockup and the PO needs to create implementation stories',
+    'wf.wf4.s1': 'Extracts components and states', 'wf.wf4.s2': 'Verifies existing tickets',
+    'wf.wf4.s3': 'Creates stories with design specs',
+    'ref.title': 'Quick Reference',
+    'ref.desc': 'Which skill to use in each situation with a suggested prompt.',
+    'ref.thWant': 'I want to...', 'ref.thSkill': 'Skill', 'ref.thPrompt': 'Suggested prompt',
+    'ref.r1': 'Search info in Jira', 'ref.r2': 'Search documentation',
+    'ref.r3': 'See what was said in Slack', 'ref.r4': 'Extract design specs',
+    'ref.r5': 'Create a ticket', 'ref.r6': 'Plan a sprint',
+    'ref.r7': 'Make a status report', 'ref.r8': 'Create a test plan',
+    'tips.title': 'Tips & Best Practices',
+    'tips.desc': 'How to get the most out of your skills.',
+    'tips.t1.title': '&#127919; Be specific with context',
+    'tips.t2.title': '&#128279; Chain naturally',
+    'tips.t3.title': '&#128161; Use the Orchestrator for complex flows',
+    'tips.t4.title': '&#128269; Research before creating',
+    'tips.t5.title': '&#9989; Don\'t forget QA',
+    'tips.t6.title': '&#128200; Combine for ceremonies',
+    'footer': 'Product Team &middot; Lansweeper &middot; Claude Cowork Skills Catalog &middot; April 2026 &middot; v1.1.0',
+    'sd.orchestrator.name': 'Orchestrator PO',
+    'sd.orchestrator.desc': 'Meta-skill that coordinates the entire PO flow. Detects what you need and delegates to the right skills.',
+    'sd.orchestrator.conn': 'Connects to ALL other skills',
+    'sd.jira-res.name': 'Jira Researcher',
+    'sd.jira-res.desc': 'Searches tickets, epics, sprint status, and issue hierarchies in Jira.',
+    'sd.jira-res.conn': 'Feeds: Ticket Creator, Sprint Planner, Stakeholder Comms, Test Plan',
+    'sd.confluence-res.name': 'Confluence Researcher',
+    'sd.confluence-res.desc': 'Finds specs, architecture docs, and meeting notes in Confluence.',
+    'sd.confluence-res.conn': 'Feeds: Ticket Creator, Pendo Tracker, Test Plan',
+    'sd.slack-res.name': 'Slack Researcher',
+    'sd.slack-res.desc': 'Searches decisions, discussions, and context in Slack channels and threads.',
+    'sd.slack-res.conn': 'Feeds: Ticket Creator, Stakeholder Comms',
+    'sd.figma-res.name': 'Figma Researcher',
+    'sd.figma-res.desc': 'Extracts design context from Figma: screenshots, components, tokens, and layout specs.',
+    'sd.figma-res.conn': 'Feeds: Ticket Creator, Test Plan Creator',
+    'sd.ticket-creator.name': 'Jira Ticket Creator',
+    'sd.ticket-creator.desc': 'Creates Outcomes, Milestones, Epics, Stories, Tasks, and Bugs with structured templates and estimation.',
+    'sd.ticket-creator.conn': 'Receives from: Researchers | Produces for: Test Plan',
+    'sd.sprint-planner.name': 'Sprint Planner',
+    'sd.sprint-planner.desc': 'Sprint planning, velocity tracking, capacity, and prioritization.',
+    'sd.sprint-planner.conn': 'Receives from: Jira Researcher | Coordinates with: Stakeholder Comms',
+    'sd.stakeholder.name': 'Stakeholder Communicator',
+    'sd.stakeholder.desc': 'Status updates, release notes, executive summaries, and demo prep.',
+    'sd.stakeholder.conn': 'Receives from: Jira Researcher, Slack Researcher, Sprint Planner',
+    'sd.test-plan.name': 'Test Plan Creator',
+    'sd.test-plan.desc': 'Creates Test Plans with Required Data, Manual Tests, and risk analysis.',
+    'sd.test-plan.conn': 'Receives from: Ticket Creator, Jira Researcher, Confluence Researcher',
+
+    'filter.analytics': 'Analytics',
+    'card.pendoTracker.desc': 'Determines which Pendo track events apply to a Jira issue. Generates the tracking section (light or full format, always collapsed) and performs mandatory dual verification: (A) the PLG Instrumentation Plan in Confluence and (B) real Pendo production data via searchEntities. Never presents an event as confirmed unless it exists in Pendo. Works standalone or as a companion to Jira Ticket Creator.',
+    'card.pendoTracker.ex': '"Create a story for the pricing page\nredesign and make sure we track\nwhat we need in Pendo"',
+    'wf.wf5.title': 'Feature with Pendo instrumentation',
+    'wf.wf5.sub': 'Create a feature story with Pendo tracking integrated in parallel with development',
+    'wf.wf5.s1': 'Reads PLG Instrumentation Plan', 'wf.wf5.s2': 'Identifies events and generates tracking',
+    'wf.wf5.s3': 'Story with FAC + Pendo section', 'wf.wf5.s4': 'Test plan includes Pendo edge cases',
+    'ref.r11': 'Define Pendo tracking',
+    'tips.t7.title': '&#128202; Parallel tracking with Pendo',
+    'cat.analytics': 'Analytics',
+    'sd.pendo-tracker.name': 'Pendo Tracker',
+    'sd.pendo-tracker.desc': 'Determines Pendo track events, generates tracking sections and validates metadata against the PLG Plan.',
+    'sd.pendo-tracker.conn': 'Receives from: Confluence Researcher | Coordinates with: Ticket Creator',
+  },
+  fr: {
+    'hero.badge': 'Product Owner Toolkit',
+    'hero.title': 'Catalogue de Skills de l\'Equipe Produit',
+    'hero.desc': '10 skills specialisees pour Claude couvrant l\'ensemble du flux de travail de l\'equipe Produit : recherche, execution, analytics, design et communication.',
+    'hero.skills': 'Skills', 'hero.layers': 'Couches', 'hero.orchestrator': 'Orchestrateur',
+    'hero.github': 'Documentation sur GitHub',
+    'search.placeholder': 'Rechercher skills, triggers, exemples...',
+    'search.noResults': 'Aucun resultat',
+    'search.found': '{n} skill{s} trouvee{s}',
+    'filter.all': 'Toutes (10)', 'filter.research': 'Recherche', 'filter.po': 'Execution PO',
+    'filter.qa': 'QA', 'filter.docs': 'Documentation', 'filter.meta': 'Orchestration',
+    'arch.title': 'Architecture de l\'Ecosysteme',
+    'arch.desc': 'Survolez un noeud pour voir ses connexions. Cliquez pour verrouiller la selection.',
+    'arch.flowLabel': 'Flux de donnees interactif',
+    'arch.entryPoint': 'Point d\'entree', 'arch.delegates': 'delegue et coordonne',
+    'arch.researchLayer': 'Couche de recherche', 'arch.feedsContext': 'alimente le contexte',
+    'arch.execLayer': 'Couche d\'execution', 'arch.producesArtifacts': 'produit des artefacts',
+    'arch.outputLayer': 'Couche de sortie',
+    'skills.title': 'Catalogue de Skills',
+    'skills.desc': 'Chaque skill avec description, declencheurs d\'activation et exemple pratique.',
+    'cat.meta': 'Orchestration', 'cat.research': 'Recherche', 'cat.po': 'Execution PO',
+    'cat.qa': 'QA', 'cat.docs': 'Documentation',
+    'card.exLabel': 'Exemple d\'utilisation',
+    'card.orchestrator.desc': 'Meta-skill qui coordonne les flux de travail PO. Route automatiquement vers les skills de recherche (Jira, Confluence, Slack, Figma), d\'execution (tickets, sprint, stakeholder), QA (Test Plan Creator) et analytics (Pendo Tracker) selon votre demande.',
+    'card.orchestrator.t1': 'flux complexe', 'card.orchestrator.t2': 'rechercher + creer', 'card.orchestrator.t3': 'coordonner le travail PO',
+    'card.orchestrator.ex': '"Recherche dans Slack et Confluence ce\nqui a ete decide sur la feature X et\ncree-moi les stories dans Jira"',
+    'card.jiraRes.desc': 'Recherche et extrait des informations de Jira avec recuperation progressive. Navigue les hierarchies (epics → stories → subtasks), commentaires et issues lies sans surcharger le contexte.',
+    'card.confRes.desc': 'Navigue la hierarchie des pages Confluence pour trouver specs, docs d\'architecture, notes de reunion et runbooks. Extrait les informations cles sans vider des pages entieres.',
+    'card.slackRes.desc': 'Recherche et extrait des informations de Slack avec recuperation progressive. Navigue canaux, threads et messages sans tirer l\'historique complet.',
+    'card.figmaRes.desc': 'Extrait le contexte de design depuis Figma via MCP. Recupere screenshots, structures de composants, tokens de design et specs de layout. Traduit les decisions visuelles en specs actionnables.',
+    'card.ticketCreator.desc': 'Cree des issues structures dans Jira avec des templates en prose humaine (sans tableaux de metadonnees ni notes AI). Story selon le template officiel ACME-17271 et Bug selon la structure officielle ACME-56921. Supporte Epics, Stories, Tasks, Bugs et Vulnerabilities. Tracking Pendo optionnel (opt-in par story), toujours replie. Flux en 5 etapes : inputs → preview → estimation → confirmation → resume.',
+    'card.sprintPlanner.desc': 'Planification de sprints, grooming et estimation. Sprint goals, capacity planning, velocity tracking, priorisation du backlog et preparation des ceremonies agile.',
+    'card.stakeholder.desc': 'Communication stakeholders : sprint status updates, release notes, executive summaries, decision logs, escalation reports et preparation de demos.',
+    'card.testPlan.desc': 'Cree des Test Plans dans Jira suivant les 21 Guidelines officielles de l\'equipe QA Lansweeper. Format Gherkin, tests par phases (A–G), tests de securite, niveau d\'automatisation, criteres de report de bugs et coherence avec les outils freres. Template avec colonnes par role (Dev 1 / Dev 2 / QE / PO) et flux en 5 etapes.',
+    'wf.title': 'Workflows Combines',
+    'wf.desc': 'Scenarios reels ou plusieurs skills s\'enchainent automatiquement.',
+    'wf.wf1.title': 'Creer des stories a partir de contexte disperse',
+    'wf.wf1.sub': 'L\'information est repartie entre Slack, Confluence et Jira',
+    'wf.wf1.s1': 'Recherche decisions et exigences dans les canaux', 'wf.wf1.s2': 'Complete avec les specs techniques',
+    'wf.wf1.s3': 'Verifie le travail existant', 'wf.wf1.s4': 'Cree les stories avec tout le contexte',
+    'wf.wf2.title': 'Reporting Sprint Review complet',
+    'wf.wf2.sub': 'Generer un package de reporting pour la sprint review',
+    'wf.wf2.s1': 'Collecte metriques et etat du sprint', 'wf.wf2.s2': 'Analyse velocity et capacity',
+    'wf.wf2.s3': 'Genere status report et resume',
+    'wf.wf3.title': 'Feature end-to-end : de l\'idee au test plan',
+    'wf.wf3.sub': 'Cycle complet d\'une feature utilisant tout l\'ecosysteme',
+    'wf.wf3.s1': 'Coordonne tout le flux', 'wf.wf3.s2': 'Extrait specs et etats du design',
+    'wf.wf3.s3': 'Epic + Stories avec AC du design', 'wf.wf3.s4': 'Test plan avec etats visuels',
+    'wf.wf4.title': 'Design-to-stories : de Figma a Jira',
+    'wf.wf4.sub': 'Un designer a termine un mockup et le PO doit creer les stories d\'implementation',
+    'wf.wf4.s1': 'Extrait composants et etats', 'wf.wf4.s2': 'Verifie les tickets existants',
+    'wf.wf4.s3': 'Cree les stories avec les specs du design',
+    'ref.title': 'Reference Rapide',
+    'ref.desc': 'Quelle skill utiliser dans chaque situation avec un prompt suggere.',
+    'ref.thWant': 'Je veux...', 'ref.thSkill': 'Skill', 'ref.thPrompt': 'Prompt suggere',
+    'ref.r1': 'Chercher dans Jira', 'ref.r2': 'Chercher dans la documentation',
+    'ref.r3': 'Voir ce qui s\'est dit sur Slack', 'ref.r4': 'Extraire des specs de design',
+    'ref.r5': 'Creer un ticket', 'ref.r6': 'Planifier un sprint',
+    'ref.r7': 'Faire un status report', 'ref.r8': 'Creer un test plan',
+    'tips.title': 'Conseils et Bonnes Pratiques',
+    'tips.desc': 'Comment tirer le meilleur parti de vos skills.',
+    'tips.t1.title': '&#127919; Soyez specifique avec le contexte',
+    'tips.t2.title': '&#128279; Enchainez naturellement',
+    'tips.t3.title': '&#128161; Utilisez l\'Orchestrator pour les flux complexes',
+    'tips.t4.title': '&#128269; Recherchez avant de creer',
+    'tips.t5.title': '&#9989; N\'oubliez pas le QA',
+    'tips.t6.title': '&#128200; Combinez pour les ceremonies',
+    'footer': 'Product Team &middot; Lansweeper &middot; Claude Cowork Skills Catalog &middot; Avril 2026 &middot; v1.1.0',
+    'sd.orchestrator.desc': 'Meta-skill qui coordonne tout le flux PO. Detecte vos besoins et delegue aux bonnes skills.',
+    'sd.orchestrator.conn': 'Connecte a TOUTES les autres skills',
+    'sd.jira-res.desc': 'Recherche tickets, epics, sprint status et hierarchies d\'issues dans Jira.',
+    'sd.jira-res.conn': 'Alimente : Ticket Creator, Sprint Planner, Stakeholder Comms, Test Plan',
+    'sd.confluence-res.desc': 'Trouve specs, docs d\'architecture et notes de reunion dans Confluence.',
+    'sd.confluence-res.conn': 'Alimente : Ticket Creator, Pendo Tracker, Test Plan',
+    'sd.slack-res.desc': 'Recherche decisions, discussions et contexte dans les canaux et threads Slack.',
+    'sd.slack-res.conn': 'Alimente : Ticket Creator, Stakeholder Comms',
+    'sd.figma-res.desc': 'Extrait le contexte de design depuis Figma : screenshots, composants, tokens et specs de layout.',
+    'sd.figma-res.conn': 'Alimente : Ticket Creator, Test Plan Creator',
+    'sd.ticket-creator.desc': 'Cree Outcomes, Milestones, Epics, Stories, Tasks et Bugs avec templates structures et estimation.',
+    'sd.ticket-creator.conn': 'Recoit de : Researchers | Produit pour : Test Plan',
+    'sd.sprint-planner.desc': 'Planification de sprints, velocity tracking, capacity et priorisation.',
+    'sd.sprint-planner.conn': 'Recoit de : Jira Researcher | Coordonne avec : Stakeholder Comms',
+    'sd.stakeholder.desc': 'Status updates, release notes, executive summaries et prep de demos.',
+    'sd.stakeholder.conn': 'Recoit de : Jira Researcher, Slack Researcher, Sprint Planner',
+    'sd.test-plan.desc': 'Cree des Test Plans avec Required Data, Manual Tests et analyse de risque.',
+    'sd.test-plan.conn': 'Recoit de : Ticket Creator, Jira Researcher, Confluence Researcher',
+
+    'filter.analytics': 'Analytics',
+    'card.pendoTracker.desc': 'Determine quels track events Pendo s\'appliquent a une issue Jira. Genere la section de tracking (format light ou full, toujours repliee) et effectue une double verification obligatoire : (A) le PLG Instrumentation Plan dans Confluence et (B) les donnees reelles de Pendo en production via searchEntities. Ne presente jamais un event comme confirme s\'il n\'existe pas dans Pendo. Fonctionne seul ou en companion du Jira Ticket Creator.',
+    'card.pendoTracker.ex': '"Cree une story pour le redesign de\nla page pricing et assure-toi qu\'on\ntracke ce qu\'il faut dans Pendo"',
+    'wf.wf5.title': 'Feature avec instrumentation Pendo',
+    'wf.wf5.sub': 'Creer une feature story avec tracking Pendo integre en parallele du developpement',
+    'wf.wf5.s1': 'Lit le PLG Instrumentation Plan', 'wf.wf5.s2': 'Identifie les evenements et genere le tracking',
+    'wf.wf5.s3': 'Story avec FAC + section Pendo', 'wf.wf5.s4': 'Test plan inclut edge cases Pendo',
+    'ref.r11': 'Definir le tracking Pendo',
+    'tips.t7.title': '&#128202; Tracking en parallele avec Pendo',
+    'cat.analytics': 'Analytics',
+    'sd.pendo-tracker.name': 'Pendo Tracker',
+    'sd.pendo-tracker.desc': 'Determine les track events Pendo, genere les sections de tracking et valide les metadonnees contre le PLG Plan.',
+    'sd.pendo-tracker.conn': 'Recoit de : Confluence Researcher | Coordonne avec : Ticket Creator',
+  },
+  it: {
+    'hero.badge': 'Product Owner Toolkit',
+    'hero.title': 'Catalogo Skills del Team Prodotto',
+    'hero.desc': '10 skill specializzate per Claude che coprono l\'intero flusso di lavoro del team Prodotto: ricerca, esecuzione, analytics, design e comunicazione.',
+    'hero.skills': 'Skills', 'hero.layers': 'Livelli', 'hero.orchestrator': 'Orchestratore',
+    'hero.github': 'Documentazione su GitHub',
+    'search.placeholder': 'Cerca skills, trigger, esempi...',
+    'search.noResults': 'Nessun risultato',
+    'search.found': '{n} skill trovate',
+    'filter.all': 'Tutte (10)', 'filter.research': 'Ricerca', 'filter.po': 'Esecuzione PO',
+    'filter.qa': 'QA', 'filter.docs': 'Documentazione', 'filter.meta': 'Orchestrazione',
+    'arch.title': 'Architettura dell\'Ecosistema',
+    'arch.desc': 'Passa il cursore su qualsiasi nodo per vedere come si connette alle altre skill. Clicca per bloccare la selezione.',
+    'arch.flowLabel': 'Flusso dati interattivo',
+    'arch.entryPoint': 'Punto di ingresso', 'arch.delegates': 'delega e coordina',
+    'arch.researchLayer': 'Livello di ricerca', 'arch.feedsContext': 'alimenta il contesto',
+    'arch.execLayer': 'Livello di esecuzione', 'arch.producesArtifacts': 'produce artefatti',
+    'arch.outputLayer': 'Livello di output',
+    'skills.title': 'Catalogo Skills',
+    'skills.desc': 'Ogni skill con descrizione, trigger di attivazione ed esempio pratico.',
+    'cat.meta': 'Orchestrazione', 'cat.research': 'Ricerca', 'cat.po': 'Esecuzione PO',
+    'cat.qa': 'QA', 'cat.docs': 'Documentazione',
+    'card.exLabel': 'Esempio d\'uso',
+    'card.orchestrator.desc': 'Meta-skill che coordina i flussi di lavoro PO. Instrada automaticamente verso le skill di ricerca (Jira, Confluence, Slack, Figma), di esecuzione (ticket, sprint, stakeholder), QA (Test Plan Creator) e analytics (Pendo Tracker) in base alla richiesta.',
+    'card.orchestrator.t1': 'flusso complesso', 'card.orchestrator.t2': 'ricercare + creare', 'card.orchestrator.t3': 'coordinare lavoro PO',
+    'card.orchestrator.ex': '"Ricerca in Slack e Confluence cosa\nsi e deciso sulla feature X e creami\nle stories in Jira"',
+    'card.jiraRes.desc': 'Cerca ed estrae informazioni da Jira con recupero progressivo. Naviga gerarchie (epics → stories → subtask), commenti e issue collegati senza sovraccaricare il contesto.',
+    'card.confRes.desc': 'Naviga la gerarchia delle pagine Confluence per trovare spec, doc di architettura, note di riunione e runbook. Estrae informazioni chiave senza scaricare pagine intere.',
+    'card.slackRes.desc': 'Cerca ed estrae informazioni da Slack con recupero progressivo. Naviga canali, thread e messaggi senza estrarre l\'intera cronologia delle conversazioni.',
+    'card.figmaRes.desc': 'Estrae contesto di design da Figma via MCP. Recupera screenshot, strutture di componenti, token di design e spec di layout. Traduce decisioni visive in spec azionabili per l\'ingegneria.',
+    'card.ticketCreator.desc': 'Crea issue strutturati in Jira con template in prosa umana (senza tabelle di metadata ne note AI). Story secondo il template ufficiale ACME-17271 e Bug secondo la struttura ufficiale ACME-56921. Supporta Epics, Stories, Tasks, Bug e Vulnerabilities. Tracking Pendo opzionale (opt-in per story), sempre compresso. Flusso in 5 step: input → preview → stima → conferma → riepilogo.',
+    'card.sprintPlanner.desc': 'Pianificazione sprint, grooming e stima. Sprint goal, capacity planning, velocity tracking, prioritizzazione del backlog e preparazione cerimonie agile.',
+    'card.stakeholder.desc': 'Comunicazione con stakeholder: sprint status update, release notes, executive summary, decision log, escalation report e preparazione demo.',
+    'card.testPlan.desc': 'Crea Test Plan in Jira seguendo le 21 Guidelines ufficiali del team QA di Lansweeper. Formato Gherkin, testing per fasi (A–G), test di sicurezza, livello di automazione, criteri di reporting bug e coerenza con gli strumenti fratelli. Template con colonne per ruolo (Dev 1 / Dev 2 / QE / PO) e flusso in 5 step.',
+    'card.pendoTracker.desc': 'Determina quali track events di Pendo si applicano a una issue Jira. Genera la sezione di tracking (formato light o full, sempre compressa) ed esegue una doppia verifica obbligatoria: (A) il PLG Instrumentation Plan in Confluence e (B) i dati reali di Pendo in produzione via searchEntities. Non presenta mai un event come confermato se non esiste in Pendo. Funziona standalone o come companion del Jira Ticket Creator.',
+    'wf.title': 'Workflow Combinati',
+    'wf.desc': 'Scenari reali dove piu skill si concatenano automaticamente.',
+    'wf.wf1.title': 'Creare stories da contesto disperso',
+    'wf.wf1.sub': 'Le informazioni sono distribuite tra Slack, Confluence e Jira',
+    'wf.wf1.s1': 'Cerca decisioni e requisiti nei canali', 'wf.wf1.s2': 'Completa con spec tecniche',
+    'wf.wf1.s3': 'Verifica il lavoro esistente', 'wf.wf1.s4': 'Crea stories con tutto il contesto',
+    'wf.wf2.title': 'Reporting Sprint Review completo',
+    'wf.wf2.sub': 'Generare un pacchetto di reporting per la sprint review',
+    'wf.wf2.s1': 'Raccoglie metriche e stato dello sprint', 'wf.wf2.s2': 'Analizza velocity e capacity',
+    'wf.wf2.s3': 'Genera status report e riepilogo',
+    'wf.wf3.title': 'Feature end-to-end: dall\'idea al test plan',
+    'wf.wf3.sub': 'Ciclo completo di una feature usando l\'intero ecosistema',
+    'wf.wf3.s1': 'Coordina l\'intero flusso', 'wf.wf3.s2': 'Estrae spec e stati del design',
+    'wf.wf3.s3': 'Epic + Stories con AC del design', 'wf.wf3.s4': 'Test plan con stati visivi',
+    'wf.wf4.title': 'Design-to-stories: da Figma a Jira',
+    'wf.wf4.sub': 'Un designer ha completato un mockup e il PO deve creare le stories di implementazione',
+    'wf.wf4.s1': 'Estrae componenti e stati', 'wf.wf4.s2': 'Verifica ticket esistenti',
+    'wf.wf4.s3': 'Crea stories con spec del design',
+    'ref.title': 'Riferimento Rapido',
+    'ref.desc': 'Quale skill usare in ogni situazione con un prompt suggerito.',
+    'ref.thWant': 'Voglio...', 'ref.thSkill': 'Skill', 'ref.thPrompt': 'Prompt suggerito',
+    'ref.r1': 'Cercare info in Jira', 'ref.r2': 'Cercare nella documentazione',
+    'ref.r3': 'Vedere cosa si e detto su Slack', 'ref.r4': 'Estrarre spec di design',
+    'ref.r5': 'Creare un ticket', 'ref.r6': 'Pianificare uno sprint',
+    'ref.r7': 'Fare un status report', 'ref.r8': 'Creare un test plan',
+    'tips.title': 'Consigli e Buone Pratiche',
+    'tips.desc': 'Come ottenere il massimo dalle tue skill.',
+    'tips.t1.title': '&#127919; Sii specifico con il contesto',
+    'tips.t2.title': '&#128279; Concatena naturalmente',
+    'tips.t3.title': '&#128161; Usa l\'Orchestrator per flussi complessi',
+    'tips.t4.title': '&#128269; Ricerca prima di creare',
+    'tips.t5.title': '&#9989; Non dimenticare il QA',
+    'tips.t6.title': '&#128200; Combina per le cerimonie',
+    'footer': 'Product Team &middot; Lansweeper &middot; Claude Cowork Skills Catalog &middot; Abril 2026 &middot; v1.1.0',
+    'sd.orchestrator.desc': 'Meta-skill che coordina l\'intero flusso PO. Rileva le tue necessita e delega alle skill giuste.',
+    'sd.orchestrator.conn': 'Si connette a TUTTE le altre skill',
+    'sd.jira-res.desc': 'Cerca ticket, epic, sprint status e gerarchie di issue in Jira.',
+    'sd.jira-res.conn': 'Alimenta: Ticket Creator, Sprint Planner, Stakeholder Comms, Test Plan',
+    'sd.confluence-res.desc': 'Trova spec, doc di architettura e note di riunione in Confluence.',
+    'sd.confluence-res.conn': 'Alimenta: Ticket Creator, Pendo Tracker, Test Plan',
+    'sd.slack-res.desc': 'Cerca decisioni, discussioni e contesto nei canali e thread Slack.',
+    'sd.slack-res.conn': 'Alimenta: Ticket Creator, Stakeholder Comms',
+    'sd.figma-res.desc': 'Estrae contesto di design da Figma: screenshot, componenti, token e spec di layout.',
+    'sd.figma-res.conn': 'Alimenta: Ticket Creator, Test Plan Creator',
+    'sd.ticket-creator.desc': 'Crea Outcomes, Milestones, Epics, Stories, Tasks e Bug con template strutturati e stima.',
+    'sd.ticket-creator.conn': 'Riceve da: Researchers | Produce per: Test Plan',
+    'sd.sprint-planner.desc': 'Pianificazione sprint, velocity tracking, capacity e prioritizzazione.',
+    'sd.sprint-planner.conn': 'Riceve da: Jira Researcher | Coordina con: Stakeholder Comms',
+    'sd.stakeholder.desc': 'Status update, release notes, executive summary e prep demo.',
+    'sd.stakeholder.conn': 'Riceve da: Jira Researcher, Slack Researcher, Sprint Planner',
+    'sd.test-plan.desc': 'Crea Test Plan con Required Data, Manual Test e analisi del rischio.',
+    'sd.test-plan.conn': 'Riceve da: Ticket Creator, Jira Researcher, Confluence Researcher',
+  }
+};
+
+// ========== LANGUAGE SWITCHER ==========
+let currentLang = 'es';
+
+function setLanguage(lang) {
+  currentLang = lang;
+  const dict = i18n[lang];
+  if (!dict) return;
+
+  // Update html lang attribute
+  document.documentElement.lang = lang;
+
+  // Update all data-i18n elements
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (dict[key] !== undefined) {
+      el.innerHTML = dict[key];
+    }
+  });
+
+  // Update placeholders
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (dict[key] !== undefined) {
+      el.placeholder = dict[key];
+    }
+  });
+
+  // Update skillData tooltips
+  const sdKeys = ['orchestrator','jira-res','confluence-res','slack-res','figma-res',
+                   'ticket-creator','sprint-planner','stakeholder','test-plan'];
+  sdKeys.forEach(id => {
+    if (skillData[id]) {
+      if (dict['sd.'+id+'.name']) skillData[id].name = dict['sd.'+id+'.name'];
+      if (dict['sd.'+id+'.desc']) skillData[id].desc = dict['sd.'+id+'.desc'];
+      if (dict['sd.'+id+'.conn']) skillData[id].connections = dict['sd.'+id+'.conn'];
+    }
+  });
+
+  // Update active button
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.lang === lang);
+  });
+}
+
+document.getElementById('langSelector').addEventListener('click', e => {
+  const btn = e.target.closest('.lang-btn');
+  if (!btn) return;
+  setLanguage(btn.dataset.lang);
+});
+
+// ========== SEARCH & FILTER ==========
+let activeCat = 'all';
+
+document.getElementById('filterBar').addEventListener('click', e => {
+  const btn = e.target.closest('.fbtn');
+  if (!btn) return;
+  document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  activeCat = btn.dataset.cat;
+  applyFilters();
+});
+
+document.getElementById('searchInput').addEventListener('input', applyFilters);
+
+function applyFilters() {
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  const cards = document.querySelectorAll('.skill-card');
+  let visible = 0;
+
+  cards.forEach(card => {
+    const matchCat = activeCat === 'all' || card.dataset.cat === activeCat;
+    const searchableText = (card.dataset.search + ' ' + card.textContent).toLowerCase();
+    const matchSearch = !q || q.split(/\s+/).every(term => searchableText.includes(term));
+    const show = matchCat && matchSearch;
+    card.classList.toggle('hidden', !show);
+    if (show) visible++;
+  });
+
+  const countEl = document.getElementById('searchCount');
+  const dict = i18n[currentLang] || i18n['es'];
+  if (q) {
+    if (visible === 0) {
+      countEl.textContent = dict['search.noResults'];
+    } else {
+      const s = visible !== 1 ? 's' : '';
+      countEl.textContent = dict['search.found'].replace('{n}', visible).replace(/\{s\}/g, s);
+    }
+  } else {
+    countEl.textContent = '';
+  }
+}
+</script>
+
+</body></html>
